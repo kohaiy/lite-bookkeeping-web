@@ -47,10 +47,11 @@ jobs:
         key: ${{ secrets.SSH }}
         port: ${{ secrets.PORT }}
         script: |
+          IMAGE_NAME=lite-bookkeeping-fe
+          IMAGE_ID=${{secrets.DOCKER_USERNAME}}/$IMAGE_NAME
           echo $IMAGE_NAME
-          echo ${IMAGE_NAME}
-          echo ${{secrets.DOCKER_USERNAME}}
+          echo $IMAGE_ID
           docker stop $IMAGE_NAME
           docker rm $IMAGE_NAME
-          docker pull $DOCKER_USERNAME/$IMAGE_NAME:latest
-          docker run -p 2301:80 --name $IMAGE_NAME $DOCKER_USERNAME/$IMAGE_NAME:latest
+          docker pull $IMAGE_ID:latest
+          docker run -p 2301:80 --name $IMAGE_NAME $IMAGE_ID:latest
