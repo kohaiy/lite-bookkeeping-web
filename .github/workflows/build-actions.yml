@@ -1,0 +1,50 @@
+name: build-docker
+
+on:
+  push:
+    branches:
+      - main
+
+  pull_request:
+    branches:
+      - main
+
+env:
+  IMAGE_NAME: lite-bookkeeping-fe
+  DOCKER_USERNAME: ${{secrets.DOCKER_USERNAME}}
+  DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
+
+jobs:
+  build-and-deploy:
+    environment: production
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@master
+    - name: Build react
+      uses: actions/setup-node@v2.4.1
+      with:
+        node-version: 14
+      run: npm run build
+    - name: Build image
+      run: docker build -t $IMAGE_NAME .
+    - name: Log into DockHub
+      run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+    - name: Push image to DockHub
+      run: |
+        IMAGE_ID=$DOCKER_USERNAME/$IMAGE_NAME
+        VERSION=latest
+        docker tag $IMAGE_NAME ${IMAGE_ID}:$VERSION
+        docker push $IMAGE_ID:$VERSION
+    - name: Server Start    
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USER }}
+        key: ${{ secrets.SSH }}
+        port: ${{ secrets.PORT }}
+        script: |
+          docker stop $IMAGE_NAME
+          docker rm $IMAGE_NAME
+          docker pull $DOCKER_USERNAME/$IMAGE_NAME:latest
+          docker run -p 8081:80 --name $IMAGE_NAME $DOCKER_USERNAME/$IMAGE_NAME:latest
