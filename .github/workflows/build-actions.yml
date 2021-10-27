@@ -21,10 +21,11 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@master
-    - name: Build react
+    - name: Setup Node.js
       uses: actions/setup-node@v2.4.1
       with:
         node-version: 14
+    - name: Build react
       run: npm run build
     - name: Build image
       run: docker build -t $IMAGE_NAME .
