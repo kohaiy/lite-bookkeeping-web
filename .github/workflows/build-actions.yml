@@ -26,7 +26,9 @@ jobs:
       with:
         node-version: 14
     - name: Build react
-      run: npm run build
+      run: |
+        npm install
+        npm run build
     - name: Build image
       run: docker build -t $IMAGE_NAME .
     - name: Log into DockHub
