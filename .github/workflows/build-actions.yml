@@ -47,6 +47,9 @@ jobs:
         key: ${{ secrets.SSH }}
         port: ${{ secrets.PORT }}
         script: |
+          echo $IMAGE_NAME
+          echo ${IMAGE_NAME}
+          echo ${{secrets.DOCKER_USERNAME}}
           docker stop $IMAGE_NAME
           docker rm $IMAGE_NAME
           docker pull $DOCKER_USERNAME/$IMAGE_NAME:latest
