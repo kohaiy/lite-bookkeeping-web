@@ -1,5 +1,5 @@
 import React from 'react';
-import logo from './logo.svg';
+import logo from './logo.png';
 import './App.css';
 
 function App() {
@@ -7,16 +7,15 @@ function App() {
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
+        <p>Welcome to <code>bk.kohai.dev</code>, the site is building.</p>
+        <p>欢迎访问 <code>bk.kohai.dev</code>，网站建设中。</p>
         <a
           className="App-link"
-          href="https://reactjs.org"
+          href="https://github.com/kohaiy/lite-bookkeeping-fe"
           target="_blank"
           rel="noopener noreferrer"
         >
-          Learn React
+          Visit on GitHub
         </a>
       </header>
     </div>
