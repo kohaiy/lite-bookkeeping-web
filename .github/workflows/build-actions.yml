@@ -4,10 +4,14 @@ on:
   push:
     branches:
       - main
+      - dev
+    tags:
+      - v*
 
   pull_request:
     branches:
       - main
+      - dev
 
 env:
   IMAGE_NAME: lite-bookkeeping-fe
@@ -35,11 +39,25 @@ jobs:
       run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
     - name: Push image to DockHub
       run: |
+        # 生成版本号
+        VERSION=${{ github.ref }}
+
+        if [[ $VERSION == refs/tags/v* ]]; then
+          VERSION=$(echo $VERSION | sed -e 's/^refs\/tags\/v//g')
+        elif [[ $VERSION == */main ]]; then
+          VERSION=latest
+        elif [[ $VERSION == */dev ]]; then
+          VERSION=dev
+        fi
+
+        echo github.ref=${{ github.ref }}
+        echo version=$VERSION
+
         IMAGE_ID=$DOCKER_USERNAME/$IMAGE_NAME
-        VERSION=latest
         docker tag $IMAGE_NAME ${IMAGE_ID}:$VERSION
         docker push $IMAGE_ID:$VERSION
-    - name: Server Start    
+    - name: Deploy Prodution
+      if: ${{ github.ref }} == */main
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.HOST }}
@@ -55,3 +73,20 @@ jobs:
           docker rm $IMAGE_NAME
           docker pull $IMAGE_ID:latest
           docker run -p 2301:80 --name $IMAGE_NAME -d $IMAGE_ID:latest
+    - name: Deploy Testing
+      if: ${{ github.ref }} == */dev
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USER }}
+        key: ${{ secrets.SSH }}
+        port: ${{ secrets.PORT }}
+        script: |
+          IMAGE_NAME=lite-bookkeeping-fe-testing
+          IMAGE_ID=${{secrets.DOCKER_USERNAME}}/$IMAGE_NAME
+          echo $IMAGE_NAME
+          echo $IMAGE_ID
+          docker stop $IMAGE_NAME
+          docker rm $IMAGE_NAME
+          docker pull $IMAGE_ID:dev
+          docker run -p 2302:80 --name $IMAGE_NAME -d $IMAGE_ID:dev
