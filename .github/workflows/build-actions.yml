@@ -8,10 +8,10 @@ on:
     tags:
       - v*
 
-  pull_request:
-    branches:
-      - main
-      - dev
+  # pull_request:
+  #   branches:
+  #     - main
+  #     - dev
 
 env:
   IMAGE_NAME: lite-bookkeeping-fe
