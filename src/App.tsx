@@ -1,6 +1,7 @@
 import React from 'react';
 import logo from './logo.png';
 import './App.css';
+import VersionBadge from './components/version-badge';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           Visit on GitHub
         </a>
       </header>
+      <VersionBadge/>
     </div>
   );
 }

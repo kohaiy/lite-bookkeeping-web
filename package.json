@@ -17,8 +17,11 @@
     "web-vitals": "^1.0.1"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "cross-env BUILD_ENV=dev yarn preexecute && react-scripts start",
+    "build": "cross-env BUILD_ENV=production yarn preexecute && react-scripts build",
+    "build:testing": "cross-env BUILD_ENV=testing yarn preexecute && react-scripts build",
+    "preexecute": "yarn gen:build-info",
+    "gen:build-info": "node ./scripts/build-info.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -39,5 +42,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3"
   }
 }
