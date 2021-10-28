@@ -57,7 +57,7 @@ jobs:
         docker tag $IMAGE_NAME ${IMAGE_ID}:$VERSION
         docker push $IMAGE_ID:$VERSION
     - name: Deploy Prodution
-      if: ${{ github.ref }} == */main
+      if: ${{ contains(github.ref, 'main') }}
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.HOST }}
@@ -74,7 +74,7 @@ jobs:
           docker pull $IMAGE_ID:latest
           docker run -p 2301:80 --name $IMAGE_NAME -d $IMAGE_ID:latest
     - name: Deploy Testing
-      if: ${{ github.ref }} == */dev
+      if: ${{ contains(github.ref, 'dev') }}
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.HOST }}
