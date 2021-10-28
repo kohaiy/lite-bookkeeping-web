@@ -82,11 +82,12 @@ jobs:
         key: ${{ secrets.SSH }}
         port: ${{ secrets.PORT }}
         script: |
-          IMAGE_NAME=lite-bookkeeping-fe-testing
+          IMAGE_NAME=lite-bookkeeping-fe
+          CONTA_NAME=$IMAGE_NAME-testing
           IMAGE_ID=${{secrets.DOCKER_USERNAME}}/$IMAGE_NAME
-          echo $IMAGE_NAME
+          echo $CONTA_NAME
           echo $IMAGE_ID
-          docker stop $IMAGE_NAME
-          docker rm $IMAGE_NAME
+          docker stop $CONTA_NAME
+          docker rm $CONTA_NAME
           docker pull $IMAGE_ID:dev
-          docker run -p 2302:80 --name $IMAGE_NAME -d $IMAGE_ID:dev
+          docker run -p 2302:80 --name $CONTA_NAME -d $IMAGE_ID:dev
