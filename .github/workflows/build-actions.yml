@@ -29,10 +29,14 @@ jobs:
       uses: actions/setup-node@v2.4.1
       with:
         node-version: 14
-    - name: Build react
-      run: |
-        npm install
-        npm run build
+    - name: Install Yarn
+      run: npm i -g yarn
+    - name: Build react for PRODUCTION
+      if: ${{ contains(github.ref, 'main') }}
+      run: yarn && yarn build
+    - name: Build react for TESTING
+      if: ${{ contains(github.ref, 'dev') }}
+      run: yarn && yarn build:testing
     - name: Build image
       run: docker build -t $IMAGE_NAME .
     - name: Log into DockHub
