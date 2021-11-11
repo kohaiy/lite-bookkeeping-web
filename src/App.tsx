@@ -1,6 +1,6 @@
 import logo from './logo.png';
 import './App.css';
-import VersionBadge from './components/version-badge';
+import VersionBadge from './components/VersionBadge';
 
 const App: React.FC = () => {
   return (
