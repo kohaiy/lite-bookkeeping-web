@@ -1,11 +1,10 @@
-import React from 'react';
 import './index.css';
 import buildInfo from '../../build-info.json';
 
-export default function VersionBadge() {
+const VersionBadge: React.FC = () => {
   console.log(buildInfo);
   if (buildInfo.buildEnv.toLowerCase() === 'production') {
-    return (<></>);
+    return <></>;
   }
   return (
     <div className="version-badge">
@@ -16,4 +15,6 @@ export default function VersionBadge() {
       <div className="build-time">{new Date(buildInfo.buildTime).toLocaleString()}</div>
     </div>
   );
-}
+};
+
+export default VersionBadge;
