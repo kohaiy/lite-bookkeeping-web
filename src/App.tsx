@@ -1,6 +1,6 @@
 import logo from './logo.png';
 import './App.css';
-import VersionBadge from './components/VersionBadge';
+import BuildInfo from './components/BuildInfo';
 
 const App: React.FC = () => {
   return (
@@ -17,7 +17,7 @@ const App: React.FC = () => {
           Visit on GitHub
         </a>
       </header>
-      <VersionBadge />
+      <BuildInfo />
     </div>
   );
 };
