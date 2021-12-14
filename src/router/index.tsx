@@ -1,5 +1,5 @@
 import type { RouteProps } from 'react-router-dom';
-import App from '../App';
+// import App from '../App';
 import AuthLogin from '../pages/auth/Login';
 import AuthRegister from '../pages/auth/Register';
 
@@ -8,10 +8,10 @@ interface RouteParams extends RouteProps {
 }
 
 const routes: RouteParams[] = [
-  {
-    path: '/',
-    element: <App />,
-  },
+  // {
+  //   path: '/',
+  //   element: <App />,
+  // },
   {
     path: '/auth',
     children: [

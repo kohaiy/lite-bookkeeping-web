@@ -3,11 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@kohapi/generator": "^0.0.1-alpha.10",
     "@types/node": "^12.0.0",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
     "@types/styled-components": "^5.1.15",
     "history": "5",
+    "http-proxy-middleware": "^2.0.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-router-dom": "6",
@@ -21,6 +23,7 @@
     "build:testing": "cross-env BUILD_ENV=testing yarn preexecute && react-scripts build",
     "preexecute": "yarn gen:build-info",
     "gen:build-info": "node ./scripts/build-info.js",
+    "gen:api": "kohapi-generator yapi-client-ts",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

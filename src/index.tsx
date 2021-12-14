@@ -1,25 +1,8 @@
 import ReactDOM from 'react-dom';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import App from './App';
 import './index.css';
-import routes from './router';
+import initialize from './initialize';
 
-ReactDOM.render(
-  <BrowserRouter>
-    <Routes>
-      {routes.map((r) =>
-        Array.isArray(r.children) ? (
-          <Route
-            {...r}
-            children={r.children.map((c) => (
-              <Route {...c} key={c.path} />
-            ))}
-            key={r.path}
-          />
-        ) : (
-          <Route {...r} key={r.path} />
-        )
-      )}
-    </Routes>
-  </BrowserRouter>,
-  document.getElementById('root')
-);
+initialize();
+
+ReactDOM.render(<App />, document.getElementById('root'));

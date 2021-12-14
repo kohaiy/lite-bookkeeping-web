@@ -1,35 +1,35 @@
-import logo from './logo.png';
-import './App.css';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+// import routes from './router';
 import BuildInfo from './components/BuildInfo';
-import { Link } from 'react-router-dom';
+import AuthLogin from './pages/auth/Login';
+import AuthRegister from './pages/auth/Register';
 
 const App: React.FC = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Welcome to <code>bk.kohai.dev</code>, the site is building.
-        </p>
-        <p>
-          欢迎访问 <code>bk.kohai.dev</code>，网站建设中。
-        </p>
-        <p>
-          {' >> '}
-          <Link to="/auth/login" className="App-link">
-            To Login
-          </Link>
-          {' >> '}
-          <Link to="/auth/register" className="App-link">
-            To Register
-          </Link>
-        </p>
-        <a className="App-link" href="https://github.com/kohaiy/lite-bookkeeping-fe" target="_blank" rel="noopener noreferrer">
-          Visit on GitHub
-        </a>
-      </header>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/">
+          <Route path="/" element={<AuthLogin />}></Route>
+          <Route path="login" element={<AuthLogin />}></Route>
+          <Route path="register" element={<AuthRegister />}></Route>
+        </Route>
+        {/* {routes.map((r) =>
+          Array.isArray(r.children) ? (
+            <Route
+              {...r}
+              children={r.children.map((c) => (
+                <Route {...c} key={c.path} />
+              ))}
+              key={r.path}
+            />
+          ) : (
+            <Route {...r} key={r.path} />
+          )
+        )} */}
+      </Routes>
+
       <BuildInfo />
-    </div>
+    </BrowserRouter>
   );
 };
 

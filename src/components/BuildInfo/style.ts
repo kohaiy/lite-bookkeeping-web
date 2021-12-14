@@ -39,5 +39,7 @@ export const Version = styled(Env)`
 `;
 
 export const BuildTime = styled.div`
+  padding: 0 4px;
   opacity: .4;
+  background-color: #000;
 `;
