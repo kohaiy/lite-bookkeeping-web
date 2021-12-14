@@ -18,6 +18,6 @@ export interface PostUserRegisterResp {
     message: string;
 }
 
-export default function (body: PostUserRegisterBody) {
+export default function PostUserRegister(body: PostUserRegisterBody) {
     return ApiClient.httpPost<PostUserRegisterResp>('/user/register', { body });
 };

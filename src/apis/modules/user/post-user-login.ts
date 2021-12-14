@@ -22,6 +22,6 @@ export interface PostUserLoginResp {
     message: string;
 }
 
-export default function (body: PostUserLoginBody) {
+export default function PostUserLogin(body: PostUserLoginBody) {
     return ApiClient.httpPost<PostUserLoginResp>('/user/login', { body });
 };
