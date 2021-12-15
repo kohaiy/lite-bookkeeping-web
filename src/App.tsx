@@ -1,10 +1,14 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-// import routes from './router';
+import { useRecoilState } from 'recoil';
 import BuildInfo from './components/BuildInfo';
+import KLoading from './components/KLoading';
+import { LoadingSubscription } from './components/LoadingSubscription';
 import AuthLogin from './pages/auth/Login';
 import AuthRegister from './pages/auth/Register';
+import { isLoadingState } from './store';
 
 const App: React.FC = () => {
+  const [isLoading] = useRecoilState(isLoadingState);
   return (
     <BrowserRouter>
       <Routes>
@@ -13,22 +17,10 @@ const App: React.FC = () => {
           <Route path="login" element={<AuthLogin />}></Route>
           <Route path="register" element={<AuthRegister />}></Route>
         </Route>
-        {/* {routes.map((r) =>
-          Array.isArray(r.children) ? (
-            <Route
-              {...r}
-              children={r.children.map((c) => (
-                <Route {...c} key={c.path} />
-              ))}
-              key={r.path}
-            />
-          ) : (
-            <Route {...r} key={r.path} />
-          )
-        )} */}
       </Routes>
-
+      <KLoading isLoading={isLoading} />
       <BuildInfo />
+      <LoadingSubscription />
     </BrowserRouter>
   );
 };

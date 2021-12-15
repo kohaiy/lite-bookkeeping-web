@@ -17,7 +17,9 @@ const AuthRegister: React.FC = () => {
     console.log(form);
     const { data } = await postUserRegister(form);
     if (data) {
-      alert('注册成功，ID 为 ' + data.data.id);
+      setTimeout(() => {
+        alert('注册成功，ID 为 ' + data.data.id);
+      });
       console.log(data);
     }
   };

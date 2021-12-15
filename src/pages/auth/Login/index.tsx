@@ -17,7 +17,9 @@ const AuthLogin: React.FC = () => {
     console.log(form);
     const { data } = await postUserLogin(form);
     if (data) {
-      alert('登录成功，' + data.data.name + '(' + data.data.id + ')')
+      setTimeout(() => {
+        alert('登录成功，' + data.data.name + '(' + data.data.id + ')')
+      });
       console.log(data);
     }
   };
