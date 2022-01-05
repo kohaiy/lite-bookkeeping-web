@@ -1,20 +1,16 @@
-import { useState } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { postUserRegister } from '../../../apis/modules/user';
 
+interface RegisterForm {
+  name: string;
+  password: string;
+}
+
 const AuthRegister: React.FC = () => {
-  const [form, setForm] = useState({
-    name: '',
-    password: '',
-  });
-  const updateForm = (f: Partial<typeof form>) => {
-    setForm({
-      ...form,
-      ...f,
-    });
-  };
-  const handleRegister = async () => {
-    console.log(form);
+  const { register, handleSubmit } = useForm<RegisterForm>();
+
+  const handleRegister: SubmitHandler<RegisterForm> = async (form) => {
     const { data } = await postUserRegister(form);
     if (data) {
       setTimeout(() => {
@@ -26,27 +22,29 @@ const AuthRegister: React.FC = () => {
   const navigate = useNavigate();
   return (
     <div>
-      <h1>User Register</h1>
-      <div>
-        <p>
-          <label>
-            User Name:
-            <input type="text" value={form.name} onChange={(e) => updateForm({ name: e.target.value })} />
-          </label>
-        </p>
-        <p>
-          <label>
-            Password:
-            <input type="password" value={form.password} onChange={(e) => updateForm({ password: e.target.value })} />
-          </label>
-        </p>
-      </div>
-      <div>
-        <p>
-          <button onClick={handleRegister}>Register</button>
-          <button onClick={() => navigate(-1)}>Back</button>
-        </p>
-      </div>
+      <h1>用户注册</h1>
+      <form onSubmit={handleSubmit(handleRegister)}>
+        <div>
+          <p>
+            <label>
+              用户名:
+              <input type="text" {...register('name', { required: true })} />
+            </label>
+          </p>
+          <p>
+            <label>
+              密码:
+              <input type="password" {...register('password', { required: true })} />
+            </label>
+          </p>
+        </div>
+        <div>
+          <p>
+            <button type="submit">注册</button>
+            <button onClick={() => navigate(-1)}>返回</button>
+          </p>
+        </div>
+      </form>
     </div>
   );
 };
