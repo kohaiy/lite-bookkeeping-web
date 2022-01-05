@@ -41,7 +41,7 @@ const AuthRegister: React.FC = () => {
         <div>
           <p>
             <button type="submit">注册</button>
-            <button onClick={() => navigate(-1)}>返回</button>
+            <button type="button" onClick={() => navigate(-1)}>返回</button>
           </p>
         </div>
       </form>

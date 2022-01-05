@@ -39,7 +39,7 @@ const AuthLogin: React.FC = () => {
         </div>
         <div>
           <button type="submit">登录</button>
-          <button onClick={() => navigate('/register')}>去注册</button>
+          <button type="button" onClick={() => navigate('/register')}>去注册</button>
         </div>
       </form>
     </>
