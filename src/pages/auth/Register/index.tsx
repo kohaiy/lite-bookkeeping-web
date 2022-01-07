@@ -1,6 +1,7 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { postUserRegister } from '../../../apis/modules/user';
+import { toast } from '../../../components/KToast';
 
 interface RegisterForm {
   name: string;
@@ -13,9 +14,7 @@ const AuthRegister: React.FC = () => {
   const handleRegister: SubmitHandler<RegisterForm> = async (form) => {
     const { data } = await postUserRegister(form);
     if (data) {
-      setTimeout(() => {
-        alert('注册成功，ID 为 ' + data.data.id);
-      });
+      toast({ content: '注册成功，ID 为 ' + data.data.id });
       console.log(data);
     }
   };
@@ -41,7 +40,9 @@ const AuthRegister: React.FC = () => {
         <div>
           <p>
             <button type="submit">注册</button>
-            <button type="button" onClick={() => navigate(-1)}>返回</button>
+            <button type="button" onClick={() => navigate(-1)}>
+              返回
+            </button>
           </p>
         </div>
       </form>

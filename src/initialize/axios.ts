@@ -1,6 +1,7 @@
 import Axios, { AxiosResponse } from 'axios';
 import type { SetterOrUpdater } from 'recoil';
 import ApiClient from '../apis/api-client';
+import { toast } from '../components/KToast';
 
 let setLoading: SetterOrUpdater<boolean> | undefined;
 export function subscribeToLoading(setter: SetterOrUpdater<boolean>) {
@@ -41,9 +42,7 @@ export default function initializeAxios() {
             const { data } = error.response as AxiosResponse;
             console.log(data);
             if (data.message) {
-                setTimeout(() => {
-                    alert(data.message);
-                });
+                toast({ content: data.message, duration: 3 });
             }
         }
         throw error;

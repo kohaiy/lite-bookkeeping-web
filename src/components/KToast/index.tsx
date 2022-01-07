@@ -1,11 +1,16 @@
 import Notification from 'rc-notification';
 import type { NotificationInstance, NoticeContent } from 'rc-notification/lib/Notification';
-import './index.css';
+import './index.scss';
 
 let notificationInstance: NotificationInstance;
-Notification.newInstance({}, (n) => {
-  notificationInstance = n;
-});
+Notification.newInstance(
+  {
+    style: {},
+  },
+  (n) => {
+    notificationInstance = n;
+  }
+);
 
 interface Props {}
 
@@ -15,6 +20,7 @@ const KToast: React.FC<Props> = (props) => {
 
 export const toast = (props: Partial<NoticeContent> = {}) => {
   notificationInstance.notice({
+    duration: 2,
     ...props,
   });
 };
