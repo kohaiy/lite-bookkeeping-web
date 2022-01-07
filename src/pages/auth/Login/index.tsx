@@ -15,7 +15,10 @@ const AuthLogin: React.FC = () => {
       setTimeout(() => {
         alert('登录成功，' + data.data.name + '(' + data.data.id + ')');
       });
-      console.log(data);
+      console.log(data.data);
+      localStorage.setItem('token', data.data.token);
+
+      navigate('/home');
     }
   };
   const navigate = useNavigate();
@@ -39,7 +42,9 @@ const AuthLogin: React.FC = () => {
         </div>
         <div>
           <button type="submit">登录</button>
-          <button type="button" onClick={() => navigate('/register')}>去注册</button>
+          <button type="button" onClick={() => navigate('/register')}>
+            去注册
+          </button>
         </div>
       </form>
     </>
