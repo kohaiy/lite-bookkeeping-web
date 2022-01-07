@@ -25,7 +25,7 @@
     "build": "cross-env BUILD_ENV=production yarn preexecute && react-scripts build",
     "build:testing": "cross-env BUILD_ENV=testing yarn preexecute && react-scripts build",
     "preexecute": "yarn gen:build-info",
-    "gen:build-info": "node ./scripts/build-info.js",
+    "gen:build-info": "node ./myscripts/build-info.js",
     "gen:api": "kohapi-generator yapi-client-ts",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
