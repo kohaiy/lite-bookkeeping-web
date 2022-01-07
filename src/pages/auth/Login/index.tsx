@@ -1,6 +1,7 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { postUserLogin } from '../../../apis/modules/user';
+import { toast } from '../../../components/KToast';
 
 interface LoginForm {
   name: string;
@@ -12,9 +13,7 @@ const AuthLogin: React.FC = () => {
   const handleLogin: SubmitHandler<LoginForm> = async (values) => {
     const { data } = await postUserLogin(values);
     if (data) {
-      setTimeout(() => {
-        alert('登录成功，' + data.data.name + '(' + data.data.id + ')');
-      });
+      toast({ content: '登录成功，' + data.data.name + '(' + data.data.id + ')' });
       console.log(data.data);
       localStorage.setItem('token', data.data.token);
 
