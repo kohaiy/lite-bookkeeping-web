@@ -5,6 +5,7 @@ $notificationPrefixCls: rc-notification;
   z-index: 1000;
   bottom: 20%;
   left: 50%;
+  transform: translateX(-50%);
 
   &-notice {
     padding: 7px 20px;
