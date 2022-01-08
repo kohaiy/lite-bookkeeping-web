@@ -1,7 +1,8 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { postUserRegister } from '../../../apis/modules/user';
 import { toast } from '../../../components/KToast';
+import { Button, Footer, Form, FormItem, Input } from '../Login/style';
 
 interface RegisterForm {
   name: string;
@@ -18,34 +19,28 @@ const AuthRegister: React.FC = () => {
       console.log(data);
     }
   };
-  const navigate = useNavigate();
   return (
     <div>
-      <h1>用户注册</h1>
-      <form onSubmit={handleSubmit(handleRegister)}>
+      <Form onSubmit={handleSubmit(handleRegister)}>
         <div>
-          <p>
-            <label>
-              用户名:
-              <input type="text" {...register('name', { required: true })} />
-            </label>
-          </p>
-          <p>
-            <label>
-              密码:
-              <input type="password" {...register('password', { required: true })} />
-            </label>
-          </p>
+          <FormItem>
+            <Input type="text" placeholder="请输入用户名" {...register('name', { required: true })} />
+          </FormItem>
+          <FormItem>
+            <Input type="password" placeholder="请输入密码" {...register('password', { required: true })} />
+          </FormItem>
         </div>
-        <div>
-          <p>
-            <button type="submit">注册</button>
-            <button type="button" onClick={() => navigate(-1)}>
-              返回
-            </button>
-          </p>
-        </div>
-      </form>
+        <Footer>
+          <div>
+            <Button className="primary" type="submit">
+              注 册
+            </Button>
+          </div>
+          <div>
+            已有账户？<Link to="/login">去登录</Link>
+          </div>
+        </Footer>
+      </Form>
     </div>
   );
 };
