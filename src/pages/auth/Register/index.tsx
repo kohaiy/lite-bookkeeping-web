@@ -37,7 +37,7 @@ const AuthRegister: React.FC = () => {
             </Button>
           </div>
           <div>
-            已有账户？<Link to="/login">去登录</Link>
+            已有账户？<Link to="/login" replace>去登录</Link>
           </div>
         </Footer>
       </Form>
