@@ -19,7 +19,8 @@ export default function initializeAxios() {
     axios.interceptors.request.use((config) => {
         setLoading?.(true);
         loadingCount++;
-        const token = localStorage.getItem('Token');
+        const token = localStorage.getItem('token');
+        console.log(token);
         if (token) {
             config.headers.Authorization = token;
         }

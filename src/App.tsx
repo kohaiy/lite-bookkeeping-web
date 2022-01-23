@@ -5,6 +5,7 @@ import KLoading from './components/KLoading';
 import { LoadingSubscription } from './components/LoadingSubscription';
 import AuthLogin from './pages/auth/Login';
 import AuthRegister from './pages/auth/Register';
+import BillAdd from './pages/bill/BillAdd';
 import Home from './pages/home';
 import { isLoadingState } from './store';
 
@@ -18,6 +19,7 @@ const App: React.FC = () => {
           <Route path="login" element={<AuthLogin />}></Route>
           <Route path="register" element={<AuthRegister />}></Route>
           <Route path="home" element={<Home />}></Route>
+          <Route path="bill-add" element={<BillAdd />}></Route>
         </Route>
       </Routes>
       <KLoading isLoading={isLoading} />
