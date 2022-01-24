@@ -20,7 +20,6 @@ export default function initializeAxios() {
         setLoading?.(true);
         loadingCount++;
         const token = localStorage.getItem('token');
-        console.log(token);
         if (token) {
             config.headers.Authorization = token;
         }
