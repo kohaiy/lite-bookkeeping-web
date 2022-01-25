@@ -13,8 +13,8 @@ const BillTagList: React.FC<Props> = (props) => {
     return <div className="flex p-4">{
         props.list.map(tag => <div key={tag.id}
             onClick={() => handleChange(tag)}
-            className={`flex flex-col justify-center items-center w-16 h-16 m-4 border-solid border border-gray-800 rounded-full cursor-pointer
-            ${props.value === tag.id ? `border-2 border-red-400` : ''}`}>
+            className={`flex flex-col justify-center items-center w-16 h-16 m-4 border-solid border-2 border-gray-800 rounded-full cursor-pointer
+            ${props.value === tag.id ? 'border-red-400' : ''}`}>
             <div className="w-6 h-6 bg-cyan-200"></div>
             <div className="mt-2 text-xs">{tag.name}</div>
         </div>)

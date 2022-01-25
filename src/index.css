@@ -7,3 +7,11 @@ html {
   background: url('./assets/images/bg_fish.png'), linear-gradient(to bottom, transparent, #d4ecff);
   /* background-size: 240px 200px; */
 }
+
+body {
+  height: 100vh;
+}
+
+#root {
+  height: 100%;
+}
