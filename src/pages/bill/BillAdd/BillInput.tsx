@@ -55,9 +55,9 @@ const BillInput: React.FC<BillInputProps> = (props) => {
         }
     }
 
-    return <div className="flex flex-col h-96 px-8 py-4 bg-orange-200 border-t-2 border-gray-800">
+    return <div className="flex flex-col h-96 px-2 py-2 md:px-8 md:py-4 bg-orange-200 border-t-2 border-gray-800">
         <div className="flex-1 flex">
-            <div className="flex-1 flex px-4 py-2">
+            <div className="flex-1 flex px-2 md:px-4 py-2">
                 <div className="flex justify-center items-center w-16 h-16 mr-4 rounded-full border-2 border-gray-800 bg-white cursor-pointer">
                     <div className="relative w-8 h-8 rounded-md border border-gray-600 bg-gray-400">
                         <div className="absolute right-0 top-2 w-4 h-3 border border-r-0 border-gray-600 rounded rounded-r-none bg-white">
@@ -79,7 +79,7 @@ const BillInput: React.FC<BillInputProps> = (props) => {
         </div>
         {keyMap.map((line, i) => <div key={i} className="flex-1 flex">
             {line.map((key) => <div key={key}
-                className="flex-1 px-4 py-2">
+                className="flex-1 px-2 md:px-4 py-2">
                 <div onClick={() => handleKeyDown(key)}
                     className="relative flex justify-center items-center w-full h-full border-2 rounded-xl border-gray-800 bg-gray-300 overflow-hidden cursor-pointer select-none group">
                     <div className="flex justify-center items-center w-full h-full absolute -top-1 rounded-xl bg-white pointer-events-none group-active:top-0">
