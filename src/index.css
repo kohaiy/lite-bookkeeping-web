@@ -8,7 +8,7 @@
 
 html {
   min-height: 100vh;
-  background: url('./assets/images/bg_fish.png'), linear-gradient(to bottom, transparent, #d4ecff);
+  background: url('./assets/images/bg_fish.png'), linear-gradient(to top, transparent, #d4ecff);
   /* background-size: 240px 200px; */
 }
 
