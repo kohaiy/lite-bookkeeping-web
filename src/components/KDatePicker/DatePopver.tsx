@@ -4,17 +4,12 @@ import MonthPanel, { Props as MonthPanelProps } from "./MonthPanel";
 
 export interface Props extends MonthPanelProps {
     value?: Date;
+    onChange?: (d: Date) => void;
 }
 const Wrapper = styled.div`
+    position: relative;
     width: 280px;
-    padding: 2px;
-    border-radius: 16px;
-    background-color: #ffffff;
-`;
-const Box = styled.div`
     padding: 24px 12px;
-    border: 2px solid #333333;
-    border-radius: 16px;
     * {
         user-select: none;
     }
@@ -61,33 +56,40 @@ const HeaderTitleButton = styled.div<{ isSelected: boolean }>`
 const DatePopover: React.FC<Props> = (props) => {
     const [date, setDate] = useState(props.value ?? props.defaultDate ?? new Date());
     const [activeTab, setActiveTab] = useState<'year' | 'month'>('month');
+    const [displayDate, setDisplayDate] = useState(new Date(date));
 
     const handleUpdateDate = (delta: number) => {
-        const d = new Date(date);
+        const d = new Date(displayDate);
         if (activeTab === 'month')
             d.setMonth(d.getMonth() + delta);
         if (activeTab === 'year')
             d.setFullYear(d.getFullYear() + delta);
 
+        setDisplayDate(d);
+    }
+
+    const handleChange = (d: Date) => {
         setDate(d);
+        props.onChange?.(d);
     }
     return (
         <Wrapper>
-            <Box>
-                <Header>
-                    <HeaderButton onClick={() => handleUpdateDate(-1)}>{'<<'}</HeaderButton>
-                    <HeaderTitle>
-                        <HeaderTitleButton isSelected={activeTab === 'year'}
-                            onClick={() => setActiveTab('year')}>{date.getFullYear()}年
-                        </HeaderTitleButton>
-                        <HeaderTitleButton isSelected={activeTab === 'month'}
-                            onClick={() => setActiveTab('month')}>{date.getMonth() + 1}月
-                        </HeaderTitleButton>
-                    </HeaderTitle>
-                    <HeaderButton onClick={() => handleUpdateDate(1)}>{'>>'}</HeaderButton>
-                </Header>
-                <MonthPanel {...props} defaultDate={date} />
-            </Box>
+            <Header>
+                <HeaderButton onClick={() => handleUpdateDate(-1)}>{'<<'}</HeaderButton>
+                <HeaderTitle>
+                    <HeaderTitleButton isSelected={activeTab === 'year'}
+                        onClick={() => setActiveTab('year')}>{displayDate.getFullYear()}年
+                    </HeaderTitleButton>
+                    <HeaderTitleButton isSelected={activeTab === 'month'}
+                        onClick={() => setActiveTab('month')}>{displayDate.getMonth() + 1}月
+                    </HeaderTitleButton>
+                </HeaderTitle>
+                <HeaderButton onClick={() => handleUpdateDate(1)}>{'>>'}</HeaderButton>
+            </Header>
+            <MonthPanel {...props}
+                defaultDate={date}
+                onChange={handleChange}
+                year={displayDate.getFullYear()} month={displayDate.getMonth()} />
         </Wrapper>
     )
 };

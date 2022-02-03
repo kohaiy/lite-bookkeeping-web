@@ -1,8 +1,11 @@
 import React, { ReactNode, useState } from "react";
+import styled from "styled-components";
+import KDatePicker from "../../../components/KDatePicker";
 import { calcStr } from "../../../helpers/data.helper";
 
 export interface BillInputProps {
     onConfirm?: (v: {
+        actionTime: Date;
         amount: number;
         remarks?: string;
     }) => void;
@@ -14,12 +17,21 @@ const keyMap = `789d
 .0<=`.split('\n').map(l => l.split(''));
 
 const keyDomMap: Record<string, ReactNode> = {
-    'd': <div>日期</div>,
     '=': <div>完成</div>,
-    '<': <div>{'<[x]'}</div>
+    '<': <div>{'🔙'}</div>
 };
 
+const DateBtn = styled.div`
+    &,
+    .k-popover,
+    .k-popover-btn {
+        width: 100%;
+        height: 100%;
+    }
+`;
+
 const BillInput: React.FC<BillInputProps> = (props) => {
+    const [actionTime, setActionTime] = useState(new Date());
     const [remarks, setRemarks] = useState('');
     const [amountInput, setAmoutInput] = useState('');
     const handleKeyDown = (key: string) => {
@@ -40,6 +52,7 @@ const BillInput: React.FC<BillInputProps> = (props) => {
             } else {
                 setAmoutInput(input);
                 props.onConfirm?.({
+                    actionTime,
                     amount: calcStr(amountInput),
                     remarks,
                 });
@@ -80,12 +93,20 @@ const BillInput: React.FC<BillInputProps> = (props) => {
         {keyMap.map((line, i) => <div key={i} className="flex-1 flex">
             {line.map((key) => <div key={key}
                 className="flex-1 px-2 md:px-4 py-2">
-                <div onClick={() => handleKeyDown(key)}
-                    className="relative flex justify-center items-center w-full h-full border-2 rounded-xl border-gray-800 bg-gray-300 overflow-hidden cursor-pointer select-none group">
-                    <div className="flex justify-center items-center w-full h-full absolute -top-1 rounded-xl bg-white pointer-events-none group-active:top-0">
-                        <span className="text-xl">{keyDomMap[key] || key}</span>
+                {key === 'd' ? <DateBtn><KDatePicker value={actionTime} onChange={setActionTime} popoverPlacement="left">
+                    <div className="relative flex justify-center items-center w-full h-full border-2 rounded-xl border-gray-800 bg-gray-300 overflow-hidden cursor-pointer select-none group">
+                        <div className="flex justify-center items-center w-full h-full absolute -top-1 rounded-xl bg-white pointer-events-none group-active:top-0">
+                            <span className="text-lg">📅{actionTime.getMonth() + 1}.{actionTime.getDate()}</span>
+                        </div>
                     </div>
-                </div>
+                </KDatePicker></DateBtn> :
+                    <div onClick={() => handleKeyDown(key)}
+                        className="relative flex justify-center items-center w-full h-full border-2 rounded-xl border-gray-800 bg-gray-300 overflow-hidden cursor-pointer select-none group">
+                        <div className="flex justify-center items-center w-full h-full absolute -top-1 rounded-xl bg-white pointer-events-none group-active:top-0">
+                            <span className="text-xl">{keyDomMap[key] || key}</span>
+                        </div>
+                    </div>
+                }
             </div>)}
         </div>)}
     </div>

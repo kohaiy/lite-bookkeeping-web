@@ -1,3 +1,7 @@
+const fillNum = (num: number | string, n = 2) => {
+    return '0'.repeat(n - `${num}`.length) + num;
+};
+
 export const generateMonthDates = (year: number, month: number, weekFirstDay = 0) => {
     const table = [];
     const date = new Date(year, month);
@@ -6,16 +10,16 @@ export const generateMonthDates = (year: number, month: number, weekFirstDay = 0
     let curRow = new Array(preFillDayTotal).fill(1).map((_, index) => {
         const d = new Date(year, month, index - preFillDayTotal + 1);
         return {
-            dateNum: d.getDate(),
+            dateNum: fillNum(d.getDate()),
             date: d,
             monthDelta: d.getMonth() - month,
         };
     });
     let curDate = new Date(date);
     do {
-        const dateNum = curDate.getDate()
+        const dateNum = curDate.getDate();
         curRow.push({
-            dateNum,
+            dateNum: fillNum(dateNum),
             date: curDate,
             monthDelta: 0,
         });
@@ -25,12 +29,12 @@ export const generateMonthDates = (year: number, month: number, weekFirstDay = 0
         }
         curDate = new Date(curDate);
         curDate.setDate(dateNum + 1);
-    } while (curDate.getMonth() <= month);
+    } while (curDate.getMonth() === month);
     if (curRow.length) {
         curRow.push(...new Array(7 - curRow.length).fill(1).map((_, index) => {
             const d = new Date(year, month + 1, index + 1);
             return {
-                dateNum: d.getDate(),
+                dateNum: fillNum(d.getDate()),
                 date: d,
                 monthDelta: d.getMonth() - month,
             };

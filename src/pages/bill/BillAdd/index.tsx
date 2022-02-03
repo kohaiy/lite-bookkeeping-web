@@ -57,7 +57,7 @@ const BillAdd: React.FC = () => {
             ...form,
             ...values,
             amount: parseInt((values.amount * 100).toString()),
-            actionTime: new Date().toISOString(),
+            actionTime: values.actionTime.toISOString(),
         });
         if (data) {
             toast({ content: '记下了' });

@@ -1,5 +1,4 @@
 import { Link, useNavigate } from 'react-router-dom';
-import KDatePicker from '../../components/KDatePicker';
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
@@ -15,9 +14,6 @@ const Home: React.FC = () => {
         <span className="text-4xl text-white leading-none">+</span>
       </Link>
       <button onClick={handleLogout}>退出登录</button>
-      <KDatePicker>
-        <button className="px-4 py-1 bg-white border-2 border-blue-500 rounded">Select Date</button>
-      </KDatePicker>
     </div>
   );
 };
