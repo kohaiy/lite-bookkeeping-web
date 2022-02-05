@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { postBill } from "../../../apis/modules/bill";
-import { getBillAccounts } from "../../../apis/modules/bill-account";
-import { GetBillAccountsRespDatum } from "../../../apis/modules/bill-account/get-bill-accounts";
 import getBillTags, { GetBillTagsRespDatum } from "../../../apis/modules/bill-tag/get-bill-tags";
 import { toast } from "../../../components/KToast";
 import { BillTypeEnum } from "../../../enums";
@@ -10,35 +8,17 @@ import BillInput, { BillInputProps } from "./BillInput";
 import BillTagList from "./BillTagList";
 
 interface BillAddForm {
-    billAccountId: number;
     billTagId: number;
-    amount: number;
-    actionTime: Date;
-    remarks?: string;
 }
 
 const BillAdd: React.FC = () => {
-    const [billAccounts, setBillAccounts] = useState<GetBillAccountsRespDatum[]>([]);
     const [billTags, setBillTags] = useState<GetBillTagsRespDatum[]>([]);
     const [activeTab, setActiveTab] = useState(BillTypeEnum.BT_PAY);
     const [form, setForm] = useState<BillAddForm>({
-        billAccountId: -1,
         billTagId: -1,
-        amount: 0,
-        actionTime: new Date()
     });
 
     useEffect(() => {
-        (async () => {
-            const { data } = await getBillAccounts()
-            if (data) {
-                setBillAccounts(data.data);
-                setForm((value) => ({
-                    ...value,
-                    billAccountId: data.data?.[0].id,
-                }));
-            }
-        })();
         (async () => {
             const { data } = await getBillTags()
             if (data) {
@@ -87,19 +67,6 @@ const BillAdd: React.FC = () => {
             </div>
             <form className="flex flex-col items-center">
                 <div>
-                    <p>
-                        <label>
-                            钱包：
-                            <select value={form.billAccountId} onChange={(e) => {
-                                setForm((value) => ({
-                                    ...value,
-                                    billAccountId: +e.target.value,
-                                }));
-                            }} className="border p-1" required>{
-                                    billAccounts.map(a => <option value={a.id} key={a.id}>{a.name}</option>)
-                                }</select>
-                        </label>
-                    </p>
                     {/* <p>
                 <label>
                     标签：

@@ -2,9 +2,11 @@ import React, { ReactNode, useState } from "react";
 import styled from "styled-components";
 import KDatePicker from "../../../components/KDatePicker";
 import { calcStr } from "../../../helpers/data.helper";
+import BillAccountSelect from "./BillAccountSelect";
 
 export interface BillInputProps {
     onConfirm?: (v: {
+        billAccountId: number;
         actionTime: Date;
         amount: number;
         remarks?: string;
@@ -31,9 +33,20 @@ const DateBtn = styled.div`
 `;
 
 const BillInput: React.FC<BillInputProps> = (props) => {
+    const [billAccountId, setBillAccountId] = useState(-1);
     const [actionTime, setActionTime] = useState(new Date());
     const [remarks, setRemarks] = useState('');
     const [amountInput, setAmoutInput] = useState('');
+
+    const handleConfirm = () => {
+        props.onConfirm?.({
+            billAccountId,
+            actionTime,
+            amount: calcStr(amountInput),
+            remarks,
+        });
+    };
+
     const handleKeyDown = (key: string) => {
         const last = amountInput.split(/[+-]/g).pop();
         if (/\d/.test(key)) {
@@ -51,11 +64,7 @@ const BillInput: React.FC<BillInputProps> = (props) => {
                 setAmoutInput(input + key);
             } else {
                 setAmoutInput(input);
-                props.onConfirm?.({
-                    actionTime,
-                    amount: calcStr(amountInput),
-                    remarks,
-                });
+                handleConfirm();
             }
         } else if (key === '.') {
             if (!last) {
@@ -68,16 +77,10 @@ const BillInput: React.FC<BillInputProps> = (props) => {
         }
     }
 
-    return <div className="flex flex-col h-96 px-2 py-2 md:px-8 md:py-4 bg-orange-200 border-t-2 border-gray-800">
+    return <div className="flex flex-col h-96 px-2 py-2 md:px-8 md:py-4 bg-yellow-300 border-t-2 border-gray-800">
         <div className="flex-1 flex">
             <div className="flex-1 flex px-2 md:px-4 py-2">
-                <div className="flex justify-center items-center w-16 h-16 mr-4 rounded-full border-2 border-gray-800 bg-white cursor-pointer">
-                    <div className="relative w-8 h-8 rounded-md border border-gray-600 bg-gray-400">
-                        <div className="absolute right-0 top-2 w-4 h-3 border border-r-0 border-gray-600 rounded rounded-r-none bg-white">
-                            <div className="relative -top-3 leading-2 select-none">.</div>
-                        </div>
-                    </div>
-                </div>
+                <BillAccountSelect value={billAccountId} onChange={(v) => setBillAccountId(v)} />
                 <div className="relative flex-1">
                     <div className="flex items-center w-full h-full pl-4 pr-24 border-2 rounded-xl border-gray-800 bg-white overflow-hidden cursor-pointer select-none">
                         <input className=" w-full text-lg text-gray-800 outline-none placeholder:text-gray-400"
