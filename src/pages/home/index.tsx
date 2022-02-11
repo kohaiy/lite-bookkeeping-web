@@ -27,7 +27,7 @@ const Home: React.FC = () => {
       </Link>
       <button onClick={handleLogout}>退出登录</button>
       <ul className=" mx-auto max-w-xl px-2 pb-20">{
-        bills.map((bill) => <li className="flex mb-2 px-4 py-2 rounded bg-white shadow">
+        bills.map((bill) => <li className="flex mb-2 px-4 py-2 rounded bg-white shadow" key={bill.id}>
           <div>
             <div className=" text-lg font-bold">{bill.billTagName}</div>
             <div className=" text-sm text-gray-600">{bill.remarks}</div>
