@@ -1,8 +1,9 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button, Footer, Form, FormItem, Input } from './style';
-import { postUserLogin } from '../../../apis/modules/user';
-import { toast } from '../../../components/KToast';
+import { postUserLogin } from '@/apis/modules/user';
+import { toast } from '@/components/KToast';
+import { useAuth } from '@/layouts/AuthProvider';
 
 interface LoginForm {
   name: string;
@@ -10,6 +11,7 @@ interface LoginForm {
 }
 
 const AuthLogin: React.FC = () => {
+  const auth = useAuth();
   const { register, handleSubmit } = useForm<LoginForm>();
   const handleLogin: SubmitHandler<LoginForm> = async (values) => {
     const { data } = await postUserLogin(values);
@@ -17,6 +19,7 @@ const AuthLogin: React.FC = () => {
       toast({ content: '登录成功，' + data.data.name + '(' + data.data.id + ')' });
       console.log(data.data);
       localStorage.setItem('token', data.data.token);
+      auth.setUser({ token: data.data.token });
 
       navigate('/home');
     }

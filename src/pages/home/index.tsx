@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { getBills } from '../../apis/modules/bill';
-import { GetBillsRespDatum } from '../../apis/modules/bill/get-bills';
+import { getBills } from '@/apis/modules/bill';
+import { GetBillsRespDatum } from '@/apis/modules/bill/get-bills';
+import { useAuth } from '@/layouts/AuthProvider';
 
 const Home: React.FC = () => {
   const [bills, setBills] = useState<GetBillsRespDatum[]>([]);
   const navigate = useNavigate();
+  const auth = useAuth();
 
   useEffect(() => {
     getBills().then(({ data }) => {
@@ -18,6 +20,7 @@ const Home: React.FC = () => {
   const handleLogout = () => {
     localStorage.removeItem('token');
     navigate('/login', { replace: true });
+    auth.setUser();
   };
   return (
     <div className="h-full overflow-auto">
