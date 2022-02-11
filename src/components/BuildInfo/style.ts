@@ -7,6 +7,7 @@ export const Wrapper = styled.div`
   text-align: right;
   font-size: 12px;
   color: #fff;
+  opacity: 0.4;
   pointer-events: none;
 `;
 
