@@ -8,8 +8,8 @@ export default defineConfig({
   server: {
     proxy: {
       '^/api': {
-        // target: 'http://localhost:9000/',
-        target: 'https://testing-bk.kohai.dev/api/',
+        target: 'http://localhost:9000/',
+        // target: 'https://testing-bk.kohai.dev/api/',
         rewrite: (p) => p.replace(/^\/api/, ''),
         changeOrigin: true,
       },
@@ -17,7 +17,7 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      '@': path.join(__dirname, './src')
-    }
-  }
+      '@': path.join(__dirname, './src'),
+    },
+  },
 });

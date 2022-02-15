@@ -1,30 +1,21 @@
-import type { RouteProps } from 'react-router-dom';
-// import App from '../App';
-import AuthLogin from '../pages/auth/Login';
-import AuthRegister from '../pages/auth/Register';
+import { useRoutes } from 'react-router-dom';
+import { createBrowserHistory } from 'history';
+import RouteHandler from './RouteHandler';
+import routes, { RouteParams } from './routes';
 
-interface RouteParams extends RouteProps {
-  children?: RouteParams[] | RouteProps['children'];
-}
+export const history = createBrowserHistory();
 
-const routes: RouteParams[] = [
-  // {
-  //   path: '/',
-  //   element: <App />,
-  // },
-  {
-    path: '/auth',
-    children: [
-      {
-        path: 'login',
-        element: <AuthLogin />,
-      },
-      {
-        path: 'register',
-        element: <AuthRegister />,
-      },
-    ],
-  },
-];
+const routeWrapper = (route: RouteParams) => {
+    route.element = <RouteHandler auth={route.auth}>{route.element}</RouteHandler>;
+    if (route.children?.length) {
+        route.children.map((r) => routeWrapper(r));
+    }
+    return route;
+};
+const wrapperRoutes = routes.map((r) => routeWrapper(r));
 
-export default routes;
+const Router: React.FC = () => {
+    return useRoutes(wrapperRoutes);
+};
+
+export default Router;
