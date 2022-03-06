@@ -5,6 +5,7 @@ import { postUserLogin } from '@/apis/modules/user';
 import { toast } from '@/components/KToast';
 import { useAuth } from '@/router/AuthProvider';
 import { setToken } from '@/helpers/storage';
+// import { getConfigCommon } from '@/apis/modules/config';
 
 interface LoginForm {
     name: string;
@@ -26,6 +27,15 @@ const AuthLogin: React.FC = () => {
             navigate((location.state as any)?.from || '/');
         }
     };
+    // const handleOAuthLogin = async () => {
+    //     const { data } = await getConfigCommon();
+    //     if (data) {
+    //         const { uniAuthClientId, uniAuthUrl } = data.data;
+
+    //         window.location.href = uniAuthUrl + '?clientId=' + uniAuthClientId;
+    //     }
+    // };
+
     return (
         <>
             <Form onSubmit={handleSubmit(handleLogin)}>
@@ -42,6 +52,10 @@ const AuthLogin: React.FC = () => {
                         <Button className="primary" type="submit">
                             登 录
                         </Button>
+                        {/* <span className="mx-2"></span>
+                        <Button onClick={handleOAuthLogin} className="primary" type="button">
+                            Uni Auth 登录
+                        </Button> */}
                     </div>
                     <div>
                         没有账户？<Link to="/register">去注册</Link>
