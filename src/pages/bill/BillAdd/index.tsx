@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { postBill } from '@/apis/modules/bill';
-import getBillTags, { GetBillTagsRespDatum } from '@/apis/modules/bill-tag/get-bill-tags';
+import getBillTags, { GetBillTagsResp } from '@/apis/modules/bill-tag/get-bill-tags';
 import { toast } from '@/components/KToast';
 import { BillTypeEnum } from '@/enums';
 import BillInput, { BillInputProps } from './BillInput';
@@ -12,7 +12,7 @@ interface BillAddForm {
 }
 
 const BillAdd: React.FC = () => {
-    const [billTags, setBillTags] = useState<GetBillTagsRespDatum[]>([]);
+    const [billTags, setBillTags] = useState<GetBillTagsResp[]>([]);
     const [activeTab, setActiveTab] = useState(BillTypeEnum.BT_PAY);
     const [form, setForm] = useState<BillAddForm>({
         billTagId: -1,
@@ -22,10 +22,10 @@ const BillAdd: React.FC = () => {
         (async () => {
             const { data } = await getBillTags();
             if (data) {
-                setBillTags(data.data);
+                setBillTags(data);
                 setForm((value) => ({
                     ...value,
-                    billTagId: data.data?.[0].id,
+                    billTagId: data.find(({ billTypeCode }) => billTypeCode === BillTypeEnum.BT_PAY)?.id ?? 0,
                 }));
             }
         })();

@@ -2,7 +2,7 @@
  * title     : 添加记账记录
  * path      : /bill
  * created at: 2022/1/4 下午8:50:31
- * updated at: 2022/1/4 下午10:13:00
+ * updated at: 2022/3/7 下午11:29:38
  */
 import ApiClient from '../../api-client';
 export interface PostBillBody {
@@ -13,12 +13,7 @@ export interface PostBillBody {
     remarks?: string;
     isIgnore?: boolean;
 }
-export interface PostBillResp {
-    code: number;
-    data: number;
-    message: string;
-}
 
 export default function postBill(body: PostBillBody) {
-    return ApiClient.httpPost<PostBillResp>('/bill', { body });
+    return ApiClient.httpPost<number>('/bill', { body });
 };

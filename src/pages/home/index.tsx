@@ -1,19 +1,19 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { getBills } from '@/apis/modules/bill';
-import { GetBillsRespDatum } from '@/apis/modules/bill/get-bills';
+import { GetBillsResp } from '@/apis/modules/bill/get-bills';
 import { useAuth } from '@/router/AuthProvider';
 import { clearToken } from '@/helpers/storage';
 
 const Home: React.FC = () => {
-    const [bills, setBills] = useState<GetBillsRespDatum[]>([]);
+    const [bills, setBills] = useState<GetBillsResp[]>([]);
     const navigate = useNavigate();
     const auth = useAuth();
 
     useEffect(() => {
         getBills().then(({ data }) => {
-            if (data && data.data) {
-                setBills(data.data);
+            if (data) {
+                setBills(data);
             }
         });
     }, []);

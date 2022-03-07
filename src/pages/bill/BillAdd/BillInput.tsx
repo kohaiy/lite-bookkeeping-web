@@ -1,7 +1,7 @@
 import React, { ReactNode, useState } from "react";
 import styled from "styled-components";
-import KDatePicker from "../../../components/KDatePicker";
-import { calcStr } from "../../../helpers/data.helper";
+import KDatePicker from "@/components/KDatePicker";
+import { calcStr } from "@/helpers/data.helper";
 import BillAccountSelect from "./BillAccountSelect";
 
 export interface BillInputProps {

@@ -1,6 +1,6 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Button, Footer, Form, FormItem, Input } from './style';
+import { Link as RouterLink, useLocation, useNavigate } from 'react-router-dom';
+import { AppBar, Box, Button, Container, Link, TextField, Toolbar, Typography } from '@mui/material';
 import { postUserLogin } from '@/apis/modules/user';
 import { toast } from '@/components/KToast';
 import { useAuth } from '@/router/AuthProvider';
@@ -16,13 +16,17 @@ const AuthLogin: React.FC = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const auth = useAuth();
-    const { register, handleSubmit } = useForm<LoginForm>();
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm<LoginForm>();
     const handleLogin: SubmitHandler<LoginForm> = async (values) => {
         const { data } = await postUserLogin(values);
         if (data) {
-            toast({ content: '登录成功，' + data.data.name + '(' + data.data.id + ')' });
-            setToken(data.data.token);
-            auth.setUser({ token: data.data.token });
+            toast({ content: '登录成功，' + data.name + '(' + data.id + ')' });
+            setToken(data.token);
+            auth.setUser({ token: data.token });
 
             navigate((location.state as any)?.from || '/');
         }
@@ -38,30 +42,63 @@ const AuthLogin: React.FC = () => {
 
     return (
         <>
-            <Form onSubmit={handleSubmit(handleLogin)}>
-                <div>
-                    <FormItem>
-                        <Input type="text" placeholder="请输入用户名" {...register('name', { required: true })} />
-                    </FormItem>
-                    <FormItem>
-                        <Input type="password" placeholder="请输入密码" {...register('password', { required: true })} />
-                    </FormItem>
-                </div>
-                <Footer>
+            <AppBar position="static">
+                <Toolbar>
+                    <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                        用户登录
+                    </Typography>
+                    <Button color="inherit" component={RouterLink} to="/register" replace>
+                        新用户
+                    </Button>
+                </Toolbar>
+            </AppBar>
+            <Container maxWidth="xs" className="pt-8">
+                <form onSubmit={handleSubmit(handleLogin)}>
                     <div>
-                        <Button className="primary" type="submit">
-                            登 录
-                        </Button>
-                        {/* <span className="mx-2"></span>
+                        <Box>
+                            <TextField
+                                label="用户名"
+                                variant="standard"
+                                size="medium"
+                                fullWidth
+                                error={!!errors.name}
+                                helperText={errors.name && '请输入用户名'}
+                                type="text"
+                                {...register('name', { required: true })}
+                            />
+                        </Box>
+                        <Box mt={4}>
+                            <TextField
+                                label="密码"
+                                variant="standard"
+                                size="medium"
+                                fullWidth
+                                error={!!errors.password}
+                                helperText={errors.password && '请输入密码'}
+                                type="password"
+                                {...register('password', { required: true })}
+                            />
+                        </Box>
+                    </div>
+                    <div className="mt-8 text-center">
+                        <div>
+                            <Button type="submit" variant="contained" fullWidth>
+                                登 录
+                            </Button>
+                            {/* <span className="mx-2"></span>
                         <Button onClick={handleOAuthLogin} className="primary" type="button">
                             Uni Auth 登录
                         </Button> */}
+                        </div>
+                        <div className="mt-2">
+                            没有账户？
+                            <Link component={RouterLink} to="/register" replace>
+                                去注册
+                            </Link>
+                        </div>
                     </div>
-                    <div>
-                        没有账户？<Link to="/register">去注册</Link>
-                    </div>
-                </Footer>
-            </Form>
+                </form>
+            </Container>
         </>
     );
 };

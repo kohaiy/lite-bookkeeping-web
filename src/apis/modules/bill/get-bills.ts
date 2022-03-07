@@ -2,10 +2,10 @@
  * title     : 获取记账记录
  * path      : /bills
  * created at: 2022/2/5 下午9:43:06
- * updated at: 2022/2/5 下午9:43:32
+ * updated at: 2022/3/7 下午11:30:07
  */
 import ApiClient from '../../api-client';
-export interface GetBillsRespDatum {
+export interface GetBillsResp {
     id: number;
     amount: number;
     actionTime: string;
@@ -14,15 +14,10 @@ export interface GetBillsRespDatum {
     billAccountName: string;
     billTagId: number;
     billTagName: string;
-    remarks?: string;
     isIgnore: boolean;
-}
-export interface GetBillsResp {
-    code: number;
-    data: GetBillsRespDatum[];
-    message: string;
+    remarks?: string;
 }
 
 export default function getBills() {
-    return ApiClient.httpGet<GetBillsResp>('/bills', {  });
+    return ApiClient.httpGet<GetBillsResp[]>('/bills', {  });
 };

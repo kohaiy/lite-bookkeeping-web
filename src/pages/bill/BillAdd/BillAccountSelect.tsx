@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import { getBillAccounts } from "../../../apis/modules/bill-account";
-import { GetBillAccountsRespDatum } from "../../../apis/modules/bill-account/get-bill-accounts";
-import KPopover from "../../../components/KPopover"
+import { getBillAccounts } from "@/apis/modules/bill-account";
+import { GetBillAccountsResp } from "@/apis/modules/bill-account/get-bill-accounts";
+import KPopover from "@/components/KPopover"
 
 interface Props {
     value?: number;
@@ -37,18 +37,18 @@ const ListItem = styled.li<{ isSelected: boolean }>`
 `;
 
 const BillAccountSelect: React.FC<Props> = (props) => {
-    const [billAccounts, setBillAccounts] = useState<GetBillAccountsRespDatum[]>([]);
+    const [billAccounts, setBillAccounts] = useState<GetBillAccountsResp[]>([]);
 
     useEffect(() => {
         (async () => {
             const { data } = await getBillAccounts()
             if (data) {
-                setBillAccounts(data.data);
+                setBillAccounts(data);
             }
         })();
     }, []);
 
-    const handleClick = (item: GetBillAccountsRespDatum) => {
+    const handleClick = (item: GetBillAccountsResp) => {
         props.onChange?.(item.id);
     };
 
