@@ -1,7 +1,7 @@
 {
   "name": "lite-bookkeeping-web",
   "private": true,
-  "version": "0.0.1",
+  "version": "0.0.2",
   "scripts": {
     "start": "cross-env BUILD_ENV=dev yarn preexecute && yarn dev",
     "dev": "vite",
