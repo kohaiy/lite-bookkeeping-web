@@ -42,7 +42,7 @@ const Main: React.FC = () => {
             <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
                 <BottomNavigation showLabels value={currentTab}>
                     {actions.map((action) => (
-                        <BottomNavigationAction {...action} key={action.to} component={NavLink} value={action.to} />
+                        <BottomNavigationAction {...action} key={action.to} component={NavLink} value={action.to} replace/>
                     ))}
                 </BottomNavigation>
             </Paper>
