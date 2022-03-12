@@ -32,7 +32,6 @@ const BillAdd: React.FC = () => {
     }, []);
 
     const handleConfirm: BillInputProps['onConfirm'] = async (values) => {
-        console.log(values);
         const { data } = await postBill({
             ...form,
             ...values,
@@ -45,13 +44,8 @@ const BillAdd: React.FC = () => {
     };
 
     return (
-        <div className="flex flex-col h-full">
+        <div className="flex flex-col" style={{ height: 'calc(100vh - 112px)' }}>
             <div className="flex-1">
-                <div>
-                    <Link to="/" replace>
-                        返回
-                    </Link>
-                </div>
                 <header className="flex justify-center text-xl">
                     <section onClick={() => setActiveTab(BillTypeEnum.BT_PAY)} className={`mr-4 cursor-pointer ${activeTab === BillTypeEnum.BT_PAY ? 'font-bold' : ''}`}>
                         支出

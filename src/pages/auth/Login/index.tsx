@@ -2,7 +2,6 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { Link as RouterLink, useLocation, useNavigate } from 'react-router-dom';
 import { AppBar, Box, Button, Container, Link, TextField, Toolbar, Typography } from '@mui/material';
 import { postUserLogin } from '@/apis/modules/user';
-import { toast } from '@/components/KToast';
 import { useAuth } from '@/router/AuthProvider';
 import { setToken } from '@/helpers/storage';
 // import { getConfigCommon } from '@/apis/modules/config';
@@ -24,9 +23,8 @@ const AuthLogin: React.FC = () => {
     const handleLogin: SubmitHandler<LoginForm> = async (values) => {
         const { data } = await postUserLogin(values);
         if (data) {
-            toast({ content: '登录成功，' + data.name + '(' + data.id + ')' });
             setToken(data.token);
-            auth.setUser({ token: data.token });
+            auth.setUser(data);
 
             navigate((location.state as any)?.from || '/');
         }
@@ -82,7 +80,7 @@ const AuthLogin: React.FC = () => {
                     </div>
                     <div className="mt-8 text-center">
                         <div>
-                            <Button type="submit" variant="contained" fullWidth>
+                            <Button type="submit" variant="contained" size="large" fullWidth>
                                 登 录
                             </Button>
                             {/* <span className="mx-2"></span>

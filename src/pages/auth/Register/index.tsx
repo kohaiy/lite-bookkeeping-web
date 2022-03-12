@@ -28,7 +28,7 @@ const AuthRegister: React.FC = () => {
             <AppBar position="static">
                 <Toolbar>
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                        注册新用户
+                        用户注册
                     </Typography>
                     <Button color="inherit" component={RouterLink} to="/login" replace>
                         登录
@@ -65,7 +65,7 @@ const AuthRegister: React.FC = () => {
                     </div>
                     <div className="mt-8 text-center">
                         <div>
-                            <Button type="submit" variant="contained" fullWidth>
+                            <Button type="submit" variant="contained" size="large" fullWidth>
                                 注 册
                             </Button>
                         </div>
