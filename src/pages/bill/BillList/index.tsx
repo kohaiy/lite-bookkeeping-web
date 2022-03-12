@@ -34,7 +34,7 @@ const BillList: React.FC = () => {
             <Container sx={{ pt: 2, pb: 8 }}>
                 {isLoaded ? (
                     bills.map((bill) => (
-                        <Card sx={{ maxWidth: 420, mb: 1, mx: 'auto' }} key={bill.id}>
+                        <Card sx={{ mb: 1 }} key={bill.id}>
                             <CardActionArea>
                                 <CardContent>
                                     <Box sx={{ display: 'flex' }}>
@@ -66,7 +66,7 @@ const BillList: React.FC = () => {
                 ) : (
                     <>
                         {Array.from({ length: 10 }).map((_, i) => (
-                            <Card sx={{ maxWidth: 420, mb: 1, mx: 'auto' }} key={i}>
+                            <Card sx={{ mb: 1 }} key={i}>
                                 <CardActionArea>
                                     <CardContent>
                                         <Box sx={{ display: 'flex' }}>

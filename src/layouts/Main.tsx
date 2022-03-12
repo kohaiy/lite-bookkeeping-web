@@ -36,7 +36,9 @@ const Main: React.FC = () => {
                     </Typography>
                 </Toolbar>
             </AppBar>
-            <Outlet />
+            <Box sx={{ maxWidth: 504, mx: 'auto' }}>
+                <Outlet />
+            </Box>
             <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
                 <BottomNavigation showLabels value={currentTab}>
                     {actions.map((action) => (
