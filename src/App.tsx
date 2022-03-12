@@ -1,25 +1,27 @@
-import React from 'react';
-import logo from './logo.png';
-import './App.css';
+import { unstable_HistoryRouter as HistoryRouter } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
+import BuildInfo from './components/BuildInfo';
+import KLoading from './components/KLoading';
+import KContainer from './layouts/KContainer';
+import { LoadingSubscription } from './components/LoadingSubscription';
+import { isLoadingState } from './store';
+import AuthProvider from './router/AuthProvider';
+import Router, { history } from './router';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>Welcome to <code>bk.kohai.dev</code>, the site is building.</p>
-        <p>欢迎访问 <code>bk.kohai.dev</code>，网站建设中。</p>
-        <a
-          className="App-link"
-          href="https://github.com/kohaiy/lite-bookkeeping-fe"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Visit on GitHub
-        </a>
-      </header>
-    </div>
-  );
-}
+const App: React.FC = () => {
+    const [isLoading] = useRecoilState(isLoadingState);
+    return (
+        <AuthProvider>
+            <HistoryRouter history={history}>
+                <KContainer>
+                    <Router />
+                </KContainer>
+                <KLoading isLoading={isLoading} />
+                <BuildInfo />
+                <LoadingSubscription />
+            </HistoryRouter>
+        </AuthProvider>
+    );
+};
 
 export default App;

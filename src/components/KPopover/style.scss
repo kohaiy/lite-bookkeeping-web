@@ -1,0 +1,107 @@
+.k-popover-btn {
+    display: inline-block;
+    &.is-active {
+        z-index: 999;
+        position: relative;
+    }
+}
+
+.k-popover-content {
+    z-index: 999;
+    position: fixed;
+    top: 0;
+    left: 0;
+    margin: -2px;
+    padding: 2px;
+    transform: translate(-50%, 20px);
+    transform-origin: center -20px;
+    opacity: 1;
+    transition: all 0.3s;
+    background-color: #ffffff;
+    border-radius: 16px;
+    .k-popover-content__wrapper {
+        display: block;
+        // margin: -2px;
+        // padding: 2px;
+        // position: absolute;
+        // top: -2px;
+        // right: -2px;
+        // bottom: -2px;
+        // left: -2px;
+        border: 2px solid #333333;
+        border-radius: 16px;
+        // background-color: #ffffff;
+        // pointer-events: none;
+    }
+    .k-popover-content__inner {
+        z-index: 999;
+        position: relative;
+        // border: 2px solid #333333;
+        // border-radius: 16px;
+        min-width: 80px;
+        min-height: 40px;
+    }
+    &.is-hidden {
+        opacity: 0;
+        transform: translate(-50%, 12px) scale(0.2);
+        pointer-events: none;
+    }
+    .k-popover-content-arrow {
+        z-index: 1;
+        top: -4px;
+        left: 50%;
+        transform: rotateZ(90deg) translate(-100%, 50%);
+        &,
+        &::after,
+        &::before {
+            position: absolute;
+            display: block;
+            width: 20px;
+            height: 24px;
+            border: 12px solid transparent;
+            border-right: 20px solid #fff;
+            border-left-width: 0;
+        }
+        &::after,
+        &::before {
+            content: "";
+            left: 4px;
+            top: -12px;
+        }
+        &::before {
+            border-right-color: #000;
+        }
+        &::after {
+            left: 8px;
+        }
+    }
+    &.placement-left {
+        transform: translate(calc(-100% - 20px), -50%);
+        transform-origin: calc(100% + 20px) center;
+        &.is-hidden {
+            opacity: 0;
+            transform: translate(calc(-100% - 20px), -50%) scale(0.2);
+            pointer-events: none;
+        }
+        .k-popover-content-arrow {
+            left: auto;
+            top: 50%;
+            right: -2px;
+            transform: rotateZ(180deg) translate(-100%, 50%);
+        }
+    }
+    &.placement-right {
+        transform: translate(0, -50%);
+        transform-origin: -20px center;
+        &.is-hidden {
+            opacity: 0;
+            transform: translate(0, -50%) scale(0.2);
+            pointer-events: none;
+        }
+        .k-popover-content-arrow {
+            left: 0;
+            top: 50%;
+            transform: rotateZ(0deg) translate(-100%, -50%);
+        }
+    }
+}
