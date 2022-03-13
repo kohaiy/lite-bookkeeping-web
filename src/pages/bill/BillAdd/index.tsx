@@ -1,12 +1,10 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { postBill } from '@/apis/modules/bill';
 import getBillTags, { GetBillTagsResp } from '@/apis/modules/bill-tag/get-bill-tags';
 import { toast } from '@/components/KToast';
 import { BillTypeEnum } from '@/enums';
 import BillInput, { BillInputProps } from './BillInput';
 import BillTagList from './BillTagList';
-import TagPanel from '@/pages/components/TagPanel';
 import { Box, Tab, Tabs } from '@mui/material';
 
 interface BillAddForm {

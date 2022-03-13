@@ -34,7 +34,7 @@ const BillInput: React.FC<BillInputProps> = (props) => {
     const [billAccountId, setBillAccountId] = useState(-1);
     const [actionTime, setActionTime] = useState(new Date());
     const [remarks, setRemarks] = useState('');
-    const [amountInput, setAmoutInput] = useState('');
+    const [amountInput, setAmountInput] = useState('');
 
     const handleConfirm = () => {
         if (billAccountId < 0) {
@@ -53,26 +53,26 @@ const BillInput: React.FC<BillInputProps> = (props) => {
         if (/\d/.test(key)) {
             if (!last || last.length <= 11) {
                 if (!last || !/\.\d{2,}/g.test(last)) {
-                    setAmoutInput(amountInput + key);
+                    setAmountInput(amountInput + key);
                 }
             }
         } else if (key === '<') {
-            setAmoutInput(amountInput.slice(0, -1));
+            setAmountInput(amountInput.slice(0, -1));
         } else if (/[=+-]/.test(key)) {
             const input = calcStr(amountInput).toString();
             console.log(amountInput, input);
             if (key !== '=') {
-                setAmoutInput(input + key);
+                setAmountInput(input + key);
             } else {
-                setAmoutInput(input);
+                setAmountInput(input);
                 handleConfirm();
             }
         } else if (key === '.') {
             if (!last) {
-                setAmoutInput(amountInput + '0.');
+                setAmountInput(amountInput + '0.');
             } else if (/\./g.test(last)) {
             } else {
-                setAmoutInput(amountInput + '.');
+                setAmountInput(amountInput + '.');
             }
         } else {
             // setAmoutInput(amountInput + key);

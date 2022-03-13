@@ -1,10 +1,8 @@
 import { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { getBills } from '@/apis/modules/bill';
 import { GetBillsResp } from '@/apis/modules/bill/get-bills';
-import { useAuth } from '@/router/AuthProvider';
-import { clearToken } from '@/helpers/storage';
-import { Box, Button, Card, CardActionArea, CardContent, Chip, Container, Divider, Fab, Skeleton, Typography } from '@mui/material';
+import { Box, Card, CardActionArea, CardContent, Container, Divider, Fab, Skeleton, Typography } from '@mui/material';
 import { Add } from '@mui/icons-material';
 import { BillTypeEnum } from '@/enums';
 import { formatMoney } from '@/helpers/data';
