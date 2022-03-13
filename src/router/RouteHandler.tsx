@@ -20,7 +20,7 @@ const RouteHandler: React.FC<Props> = ({ auth, children }) => {
         if (!user && token) {
             getUserInfo().then(({ data }) => {
                 if (data) {
-                    user = { token };
+                    user = { token, ...data };
                     authData.setUser(user);
                 } else {
                     setInvalid(true);
