@@ -28,7 +28,7 @@ const Main: React.FC = () => {
     ];
 
     return (
-        <Box sx={{ py: 7 }}>
+        <Box sx={{ py: 7, pt: { sm: 8 } }}>
             <AppBar position="fixed">
                 <Toolbar>
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
@@ -42,7 +42,7 @@ const Main: React.FC = () => {
             <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
                 <BottomNavigation showLabels value={currentTab}>
                     {actions.map((action) => (
-                        <BottomNavigationAction {...action} key={action.to} component={NavLink} value={action.to} replace/>
+                        <BottomNavigationAction {...action} key={action.to} component={NavLink} value={action.to} replace />
                     ))}
                 </BottomNavigation>
             </Paper>

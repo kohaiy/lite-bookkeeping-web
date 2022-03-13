@@ -1,4 +1,3 @@
-import { CurrencyYen, Add } from '@mui/icons-material';
 import { GetBillTagsResp } from '@/apis/modules/bill-tag/get-bill-tags';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField, ToggleButton, ToggleButtonGroup } from '@mui/material';
 import { useState } from 'react';
@@ -7,34 +6,42 @@ import { postBillTag } from '@/apis/modules/bill-tag';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { PostBillTagBody } from '@/apis/modules/bill-tag/post-bill-tag';
 import { toast } from '@/components/KToast';
+import TagPanel from '@/pages/components/TagPanel';
 
 interface Props {
+    activeTab: number;
     list: GetBillTagsResp[];
     value?: GetBillTagsResp['id'];
-    onChange?: (v: GetBillTagsResp) => void;
+    onChange?: (v: GetBillTagsResp['id']) => void;
+    onAdded?: () => void;
 }
 
-const BillTagList: React.FC<Props> = (props) => {
+const BillTagList: React.FC<Props> = ({ activeTab, value, list, onChange, onAdded }) => {
     const [visible, setVisible] = useState(false);
-    const [billTypeCode, setBillTypeCode] = useState(BillTypeEnum.BT_PAY);
-    const { register, handleSubmit } = useForm<PostBillTagBody>();
+    const [isLoading, setIsLoading] = useState(false);
+    const [billTypeCode, setBillTypeCode] = useState(activeTab);
+    const { register, handleSubmit, reset } = useForm<PostBillTagBody>();
     const handleConfirm: SubmitHandler<PostBillTagBody> = async (values) => {
+        setIsLoading(true);
         const { data } = await postBillTag({
             ...values,
             billTypeCode,
         });
         if (data) {
             toast({
-                content: '添加标签成功，请重新进入此页面',
+                content: '添加标签成功',
             });
+            reset();
             handleCloseDialog();
+            onAdded?.();
         }
+        setIsLoading(false);
     };
-    const handleChange = (value: GetBillTagsResp) => {
-        props.onChange?.(value);
+    const handleChange = (val: GetBillTagsResp['id']) => {
+        onChange?.(val);
     };
-    const handleTypeChange = (_: unknown, value?: number) => {
-        value && setBillTypeCode(value);
+    const handleTypeChange = (_: unknown, val?: number) => {
+        val && setBillTypeCode(val);
     };
     const handleOpenDialog = () => {
         setVisible(true);
@@ -43,26 +50,8 @@ const BillTagList: React.FC<Props> = (props) => {
         setVisible(false);
     };
     return (
-        <div className="flex flex-wrap p-4">
-            {props.list.map((tag) => (
-                <div
-                    key={tag.id}
-                    onClick={() => handleChange(tag)}
-                    className={`flex flex-col justify-center items-center w-16 h-16 m-4 border-solid border-2 border-gray-800 rounded-full cursor-pointer
-            ${props.value === tag.id ? 'border-red-400' : ''}`}
-                >
-                    <div className="w-6 h-6">
-                        <CurrencyYen />
-                    </div>
-                    <div className="mt-2 text-xs">{tag.name}</div>
-                </div>
-            ))}
-            <div onClick={handleOpenDialog} className="flex flex-col justify-center items-center w-16 h-16 m-4 border-solid border-2 border-gray-800 rounded-full cursor-pointer">
-                <div className="w-6 h-6">
-                    <Add />
-                </div>
-                <div className="mt-2 text-xs">添加</div>
-            </div>
+        <div>
+            <TagPanel list={list.filter((t) => t.billTypeCode === activeTab)} value={value} onChange={handleChange} onEdit={handleOpenDialog} />
             <Dialog open={visible} onClose={handleCloseDialog}>
                 <form onSubmit={handleSubmit(handleConfirm)}>
                     <DialogTitle>添加标签</DialogTitle>
@@ -78,7 +67,7 @@ const BillTagList: React.FC<Props> = (props) => {
                         <Button onClick={handleCloseDialog} type="button">
                             取消
                         </Button>
-                        <Button variant="contained" type="submit">
+                        <Button variant="contained" type="submit" disabled={isLoading}>
                             确定
                         </Button>
                     </DialogActions>

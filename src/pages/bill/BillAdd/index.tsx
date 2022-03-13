@@ -6,6 +6,8 @@ import { toast } from '@/components/KToast';
 import { BillTypeEnum } from '@/enums';
 import BillInput, { BillInputProps } from './BillInput';
 import BillTagList from './BillTagList';
+import TagPanel from '@/pages/components/TagPanel';
+import { Box, Tab, Tabs } from '@mui/material';
 
 interface BillAddForm {
     billTagId: number;
@@ -18,18 +20,31 @@ const BillAdd: React.FC = () => {
         billTagId: -1,
     });
 
+    const loadBillTags = async () => {
+        const { data } = await getBillTags();
+        if (data) {
+            setBillTags(data);
+            setForm((value) => ({
+                ...value,
+                billTagId: data.find(({ billTypeCode }) => billTypeCode === activeTab)?.id ?? 0,
+            }));
+        }
+    };
+
     useEffect(() => {
-        (async () => {
-            const { data } = await getBillTags();
-            if (data) {
-                setBillTags(data);
-                setForm((value) => ({
-                    ...value,
-                    billTagId: data.find(({ billTypeCode }) => billTypeCode === BillTypeEnum.BT_PAY)?.id ?? 0,
-                }));
-            }
-        })();
+        loadBillTags();
     }, []);
+
+    const handleTabChange = (_: unknown, val: number) => {
+        setActiveTab(val);
+        setForm((value) => ({
+            ...value,
+            billTagId: billTags.find(({ billTypeCode }) => billTypeCode === val)?.id ?? 0,
+        }));
+    };
+    const handleTagAdded = () => {
+        loadBillTags();
+    };
 
     const handleConfirm: BillInputProps['onConfirm'] = async (values) => {
         const { data } = await postBill({
@@ -44,58 +59,21 @@ const BillAdd: React.FC = () => {
     };
 
     return (
-        <div className="flex flex-col" style={{ height: 'calc(100vh - 112px)' }}>
+        <Box className="flex flex-col" sx={{ height: { xs: 'calc(100vh - 112px)', sm: 'calc(100vh - 120px)' } }}>
             <div className="flex-1">
-                <header className="flex justify-center text-xl">
-                    <section onClick={() => setActiveTab(BillTypeEnum.BT_PAY)} className={`mr-4 cursor-pointer ${activeTab === BillTypeEnum.BT_PAY ? 'font-bold' : ''}`}>
-                        支出
-                    </section>
-                    <section onClick={() => setActiveTab(BillTypeEnum.BT_INCOME)} className={`ml-4 cursor-pointer ${activeTab === BillTypeEnum.BT_INCOME ? 'font-bold' : ''}`}>
-                        收入
-                    </section>
-                </header>
-                <div>
-                    <div style={{ display: activeTab === BillTypeEnum.BT_PAY ? '' : 'none' }}>
-                        <BillTagList list={billTags.filter((t) => t.billTypeCode === BillTypeEnum.BT_PAY)} value={form.billTagId} onChange={(tag) => setForm((v) => ({ ...v, billTagId: tag.id }))} />
-                    </div>
-                    <div style={{ display: activeTab === BillTypeEnum.BT_INCOME ? '' : 'none' }}>
-                        <BillTagList
-                            list={billTags.filter((t) => t.billTypeCode === BillTypeEnum.BT_INCOME)}
-                            value={form.billTagId}
-                            onChange={(tag) => setForm((v) => ({ ...v, billTagId: tag.id }))}
-                        />
-                    </div>
-                </div>
-                <form className="flex flex-col items-center">
-                    <div>
-                        {/* <p>
-                <label>
-                    标签：
-                    <select {...register('billTagId', { required: true, valueAsNumber: true })}>{
-                        billTags.map(t => <option value={t.id} key={t.id}>{t.name}</option>)
-                    }</select>
-                </label>
-            </p> */}
-                        {/* <p className="mt-2">
-                        <label>
-                            金额：
-                            <input {...register('amount', { required: true, valueAsNumber: true })} className="border p-1" />
-                        </label>
-                    </p> */}
-                        {/* <p className="mt-2">
-                        <label>
-                            备注：
-                            <textarea {...register('remarks', { maxLength: 200 })} className="border p-1"></textarea>
-                        </label>
-                    </p> */}
-                        {/* <p className="mt-4 text-center">
-                        <button type="submit" className="px-4 py-2 bg-sky-400">提交</button>
-                    </p> */}
-                    </div>
-                </form>
+                <Tabs value={activeTab} onChange={handleTabChange} centered>
+                    <Tab value={BillTypeEnum.BT_PAY} label="支出" />
+                    <Tab value={BillTypeEnum.BT_INCOME} label="收入" />
+                </Tabs>
+                {activeTab === BillTypeEnum.BT_PAY ? (
+                    <BillTagList activeTab={BillTypeEnum.BT_PAY} list={billTags} value={form.billTagId} onChange={(billTagId) => setForm((v) => ({ ...v, billTagId }))} onAdded={handleTagAdded} />
+                ) : null}
+                {activeTab === BillTypeEnum.BT_INCOME ? (
+                    <BillTagList activeTab={BillTypeEnum.BT_INCOME} list={billTags} value={form.billTagId} onChange={(billTagId) => setForm((v) => ({ ...v, billTagId }))} onAdded={handleTagAdded} />
+                ) : null}
             </div>
             <BillInput onConfirm={handleConfirm} />
-        </div>
+        </Box>
     );
 };
 
