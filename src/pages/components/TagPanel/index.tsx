@@ -41,7 +41,7 @@ const TagPanel: React.FC<Props> = ({ list, value, onChange, onEdit }) => {
             <SwipeableViews axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'} enableMouseEvents index={curIndex} onChangeIndex={handleChangeIndex}>
                 {innerList.map((row, i) => (
                     <Container sx={{ py: 2 }} key={i}>
-                        <Grid container spacing={0}>
+                        <Grid container spacing={1}>
                             {row.map((tag) => (
                                 <Grid item xs={3} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }} key={tag.id}>
                                     <ButtonBase
@@ -59,9 +59,13 @@ const TagPanel: React.FC<Props> = ({ list, value, onChange, onEdit }) => {
                                         {tag.id < 0 ? (
                                             <Edit />
                                         ) : (
-                                            <InsertEmoticon color="action" sx={{ borderRadius: '50%', color: value === tag.id ? '#fff' : '', bgcolor: value === tag.id ? 'primary.main' : '' }} />
+                                            <InsertEmoticon
+                                                fontSize="large"
+                                                color="action"
+                                                sx={{ borderRadius: '50%', color: value === tag.id ? '#fff' : '', bgcolor: value === tag.id ? 'primary.main' : '' }}
+                                            />
                                         )}
-                                        <Typography fontSize={8} color={value === tag.id ? 'primary.main' : 'text.disabled'}>
+                                        <Typography fontSize={12} color={value === tag.id ? 'primary.main' : 'text.disabled'}>
                                             {tag.name}
                                         </Typography>
                                     </ButtonBase>
