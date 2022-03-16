@@ -1,25 +1,25 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { getBills } from '@/apis/modules/bill';
-import { GetBillsResp } from '@/apis/modules/bill/get-bills';
 import { Box, Card, CardActionArea, CardContent, Container, Divider, Fab, Skeleton, Typography } from '@mui/material';
-import { Add } from '@mui/icons-material';
+import { Add, CalendarMonth } from '@mui/icons-material';
 import { BillTypeEnum } from '@/enums';
 import { formatMoney } from '@/helpers/data';
+import { BillByDateItem, splitBillsByDate } from './service';
 
 const getBillType = (type: number) => {
-    return type === BillTypeEnum.BT_INCOME ? 1 : type === BillTypeEnum.BT_PAY ? -1 : 0;
+    return type === BillTypeEnum.BT_INCOME ? 1 : type === BillTypeEnum.BT_EXPENSE ? -1 : 0;
 };
 
 const BillList: React.FC = () => {
     const [isLoaded, setIsLoaded] = useState(false);
-    const [bills, setBills] = useState<GetBillsResp[]>([]);
+    const [billDates, setBillDates] = useState<BillByDateItem[]>([]);
 
     useEffect(() => {
         getBills()
             .then(({ data }) => {
                 if (data) {
-                    setBills(data);
+                    setBillDates(splitBillsByDate(data));
                 }
             })
             .finally(() => {
@@ -31,35 +31,62 @@ const BillList: React.FC = () => {
         <>
             <Container sx={{ pt: 2, pb: 8 }}>
                 {isLoaded ? (
-                    bills.map((bill) => (
-                        <Card sx={{ mb: 1 }} key={bill.id}>
-                            <CardActionArea>
-                                <CardContent>
-                                    <Box sx={{ display: 'flex' }}>
-                                        <div>
-                                            <Typography sx={{ fontSize: 16, fontWeight: 'bold' }} color="text.primary" gutterBottom>
-                                                {bill.billTagName}
-                                            </Typography>
-                                            <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                                                {bill.remarks}
-                                            </Typography>
-                                            <Typography sx={{ fontSize: 12 }} color="text.disabled">
-                                                {new Date(bill.actionTime).toLocaleDateString()}
-                                            </Typography>
-                                        </div>
-                                        <div className="flex-1 flex flex-col items-end justify-center">
-                                            <Typography sx={{ fontSize: 20 }} color={getBillType(bill.billTypeCode) > 0 ? 'error.main' : 'primary.main'}>
-                                                {['-', '', '+'][getBillType(bill.billTypeCode) + 1]}
-                                                {formatMoney(bill.amount)}
-                                            </Typography>
-                                            <Typography sx={{ fontSize: 14 }} color="text.secondary">
-                                                {bill.billAccountName}
-                                            </Typography>
-                                        </div>
-                                    </Box>
-                                </CardContent>
-                            </CardActionArea>
-                        </Card>
+                    billDates.map(({ date, bills, overview }) => (
+                        <Box sx={{ mb: 2 }} key={date}>
+                            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap' }}>
+                                <Typography color="primary" sx={{ display: 'flex', alignItems: 'center' }}>
+                                    <CalendarMonth fontSize="small" />
+                                    {date}
+                                </Typography>
+                                <Box sx={{ display: 'flex', flex: 1, justifyContent: 'flex-end', alignItems: 'center', opacity: 0.8 }}>
+                                    <Typography color="success.main" fontSize="small">
+                                        {formatMoney(overview.income - overview.expense)}
+                                    </Typography>
+                                    <Typography color="text.disabled" fontSize="small" sx={{ mx: 1 }}>
+                                        =
+                                    </Typography>
+                                    <Typography color="error.main" fontSize="small">
+                                        +{formatMoney(overview.income)}
+                                    </Typography>
+                                    <Typography color="text.disabled" fontSize="small" sx={{ mx: 1 }}>
+                                        +
+                                    </Typography>
+                                    <Typography color="primary" fontSize="small">
+                                        -{formatMoney(overview.expense)}
+                                    </Typography>
+                                </Box>
+                            </Box>
+                            {bills.map((bill) => (
+                                <Card sx={{ mb: 1 }} key={bill.id}>
+                                    <CardActionArea>
+                                        <CardContent>
+                                            <Box sx={{ display: 'flex' }}>
+                                                <div>
+                                                    <Typography sx={{ fontSize: 16, fontWeight: 'bold' }} color="text.primary" gutterBottom>
+                                                        {bill.billTagName}
+                                                    </Typography>
+                                                    <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                                                        {bill.remarks}
+                                                    </Typography>
+                                                    <Typography sx={{ fontSize: 12 }} color="text.disabled">
+                                                        {new Date(bill.actionTime).toLocaleDateString()}
+                                                    </Typography>
+                                                </div>
+                                                <div className="flex-1 flex flex-col items-end justify-center">
+                                                    <Typography sx={{ fontSize: 20 }} color={getBillType(bill.billTypeCode) > 0 ? 'error.main' : 'primary.main'}>
+                                                        {['-', '', '+'][getBillType(bill.billTypeCode) + 1]}
+                                                        {formatMoney(bill.amount)}
+                                                    </Typography>
+                                                    <Typography sx={{ fontSize: 14 }} color="text.secondary">
+                                                        {bill.billAccountName}
+                                                    </Typography>
+                                                </div>
+                                            </Box>
+                                        </CardContent>
+                                    </CardActionArea>
+                                </Card>
+                            ))}
+                        </Box>
                     ))
                 ) : (
                     <>
