@@ -57,7 +57,7 @@ const BillTagList: React.FC<Props> = ({ activeTab, value, list, onChange, onAdde
                     <DialogTitle>添加标签</DialogTitle>
                     <DialogContent>
                         <ToggleButtonGroup color="primary" value={billTypeCode} size="small" exclusive onChange={handleTypeChange}>
-                            <ToggleButton value={BillTypeEnum.BT_PAY}>支出</ToggleButton>
+                            <ToggleButton value={BillTypeEnum.BT_EXPENSE}>支出</ToggleButton>
                             <ToggleButton value={BillTypeEnum.BT_INCOME}>收入</ToggleButton>
                         </ToggleButtonGroup>
                         <TextField label="标签名称" variant="standard" size="medium" autoFocus fullWidth {...register('name', { required: true })} />

@@ -16,7 +16,6 @@ const RouteHandler: React.FC<Props> = ({ auth, children }) => {
     let { user } = authData;
     let location = useLocation();
     useLayoutEffect(() => {
-        console.log('useLayoutEffect', location.pathname);
         if (!user && token) {
             getUserInfo().then(({ data }) => {
                 if (data) {

@@ -1,12 +1,10 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { postBill } from '@/apis/modules/bill';
 import getBillTags, { GetBillTagsResp } from '@/apis/modules/bill-tag/get-bill-tags';
 import { toast } from '@/components/KToast';
 import { BillTypeEnum } from '@/enums';
 import BillInput, { BillInputProps } from './BillInput';
 import BillTagList from './BillTagList';
-import TagPanel from '@/pages/components/TagPanel';
 import { Box, Tab, Tabs } from '@mui/material';
 
 interface BillAddForm {
@@ -15,7 +13,7 @@ interface BillAddForm {
 
 const BillAdd: React.FC = () => {
     const [billTags, setBillTags] = useState<GetBillTagsResp[]>([]);
-    const [activeTab, setActiveTab] = useState(BillTypeEnum.BT_PAY);
+    const [activeTab, setActiveTab] = useState(BillTypeEnum.BT_EXPENSE);
     const [form, setForm] = useState<BillAddForm>({
         billTagId: -1,
     });
@@ -62,11 +60,11 @@ const BillAdd: React.FC = () => {
         <Box className="flex flex-col" sx={{ height: { xs: 'calc(100vh - 112px)', sm: 'calc(100vh - 120px)' } }}>
             <div className="flex-1">
                 <Tabs value={activeTab} onChange={handleTabChange} centered>
-                    <Tab value={BillTypeEnum.BT_PAY} label="支出" />
+                    <Tab value={BillTypeEnum.BT_EXPENSE} label="支出" />
                     <Tab value={BillTypeEnum.BT_INCOME} label="收入" />
                 </Tabs>
-                {activeTab === BillTypeEnum.BT_PAY ? (
-                    <BillTagList activeTab={BillTypeEnum.BT_PAY} list={billTags} value={form.billTagId} onChange={(billTagId) => setForm((v) => ({ ...v, billTagId }))} onAdded={handleTagAdded} />
+                {activeTab === BillTypeEnum.BT_EXPENSE ? (
+                    <BillTagList activeTab={BillTypeEnum.BT_EXPENSE} list={billTags} value={form.billTagId} onChange={(billTagId) => setForm((v) => ({ ...v, billTagId }))} onAdded={handleTagAdded} />
                 ) : null}
                 {activeTab === BillTypeEnum.BT_INCOME ? (
                     <BillTagList activeTab={BillTypeEnum.BT_INCOME} list={billTags} value={form.billTagId} onChange={(billTagId) => setForm((v) => ({ ...v, billTagId }))} onAdded={handleTagAdded} />
