@@ -1,10 +1,11 @@
 import { GetBillsResp } from '@/apis/modules/bill/get-bills';
 import { BillTypeEnum } from '@/enums';
+import { formatDate } from '@/helpers/data';
 
 export const splitBillsByDate = (bills: GetBillsResp[]) => {
     const billsByDate = new Map<string, GetBillsResp[]>();
     bills.forEach((bill) => {
-        const date = bill.actionTime.split('T')[0];
+        const date = formatDate(bill.actionTime);
         if (!billsByDate.has(date)) {
             billsByDate.set(date, []);
         }

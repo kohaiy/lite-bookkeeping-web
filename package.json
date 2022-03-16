@@ -25,6 +25,7 @@
     "@emotion/styled": "^11.8.1",
     "@mui/icons-material": "^5.5.0",
     "@mui/material": "^5.5.0",
+    "dayjs": "^1.11.0",
     "history": "5",
     "rc-notification": "^4.5.7",
     "react": "^17.0.2",

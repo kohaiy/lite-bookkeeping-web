@@ -4,7 +4,7 @@ import { getBills } from '@/apis/modules/bill';
 import { Box, Card, CardActionArea, CardContent, Container, Divider, Fab, Skeleton, Typography } from '@mui/material';
 import { Add, CalendarMonth } from '@mui/icons-material';
 import { BillTypeEnum } from '@/enums';
-import { formatMoney } from '@/helpers/data';
+import { formatDate, formatMoney } from '@/helpers/data';
 import { BillByDateItem, splitBillsByDate } from './service';
 
 const getBillType = (type: number) => {
@@ -36,7 +36,7 @@ const BillList: React.FC = () => {
                             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap' }}>
                                 <Typography color="primary" sx={{ display: 'flex', alignItems: 'center' }}>
                                     <CalendarMonth fontSize="small" />
-                                    {date}
+                                    {formatDate(date, 'MM-DD ddd')}
                                 </Typography>
                                 <Box sx={{ display: 'flex', flex: 1, justifyContent: 'flex-end', alignItems: 'center', opacity: 0.8 }}>
                                     <Typography color="success.main" fontSize="small">
@@ -69,7 +69,7 @@ const BillList: React.FC = () => {
                                                         {bill.remarks}
                                                     </Typography>
                                                     <Typography sx={{ fontSize: 12 }} color="text.disabled">
-                                                        {new Date(bill.actionTime).toLocaleDateString()}
+                                                        {formatDate(bill.actionTime, 'HH:mm')}
                                                     </Typography>
                                                 </div>
                                                 <div className="flex-1 flex flex-col items-end justify-center">
