@@ -9,13 +9,13 @@
   },
   "scripts": {
     "build": "cross-env BUILD_ENV=production yarn preexecute && tsc && vite build",
-    "build:testing": "cross-env BUILD_ENV=testing yarn preexecute && tsc && vite build",
+    "build:testing": "cross-env BUILD_ENV=testing yarn preexecute && tsc && vite build --mode testing",
     "dev": "vite",
     "gen:api": "kohapi-generator yapi-client-ts",
     "gen:build-info": "node ./scripts/build-info.js",
     "preexecute": "yarn gen:build-info",
     "preview": "preexecute && vite preview",
-    "start": "cross-env BUILD_ENV=dev yarn preexecute && yarn dev"
+    "start": "cross-env BUILD_ENV=dev yarn preexecute && yarn dev --mode dev"
   },
   "resolutions": {
     "csstype": "3.0.11"
