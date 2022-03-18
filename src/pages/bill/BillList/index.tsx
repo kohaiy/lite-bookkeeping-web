@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { getBills } from '@/apis/modules/bill';
-import { Box, Card, CardActionArea, CardContent, Container, Divider, Fab, Skeleton, Typography } from '@mui/material';
+import { Box, Card, CardActionArea, CardContent, Container, Divider, Fab, MenuItem, Select, Skeleton, Typography } from '@mui/material';
 import { Add, CalendarMonth } from '@mui/icons-material';
 import { BillTypeEnum } from '@/enums';
 import { formatDate, formatMoney } from '@/helpers/data';
-import { BillByDateItem, splitBillsByDate } from './service';
+import { BillByDateItem, getMonthDateRange, splitBillsByDate } from './service';
+import MonthSelect from './MonthSelect';
 
 const getBillType = (type: number) => {
     return type === BillTypeEnum.BT_INCOME ? 1 : type === BillTypeEnum.BT_EXPENSE ? -1 : 0;
@@ -14,22 +15,34 @@ const getBillType = (type: number) => {
 const BillList: React.FC = () => {
     const [isLoaded, setIsLoaded] = useState(false);
     const [billDates, setBillDates] = useState<BillByDateItem[]>([]);
+    const [date, setDate] = useState<Date>(new Date());
+
+    const loadBills = async (month: Date) => {
+        try {
+            const [startDate, endDate] = getMonthDateRange(month);
+            const { data } = await getBills({ startDate, endDate });
+            if (data) {
+                const billDates = splitBillsByDate(data);
+                setBillDates(billDates);
+            }
+        } finally {
+            setIsLoaded(true);
+        }
+    };
+
+    const handleMonthChange = (val: Date) => {
+        setDate(val);
+        loadBills(val);
+    };
 
     useEffect(() => {
-        getBills()
-            .then(({ data }) => {
-                if (data) {
-                    setBillDates(splitBillsByDate(data));
-                }
-            })
-            .finally(() => {
-                setIsLoaded(true);
-            });
+        loadBills(date);
     }, []);
 
     return (
         <>
             <Container sx={{ pt: 2, pb: 8 }}>
+                <MonthSelect value={date} onChange={handleMonthChange} />
                 {isLoaded ? (
                     billDates.map(({ date, bills, overview }) => (
                         <Box sx={{ mb: 2 }} key={date}>

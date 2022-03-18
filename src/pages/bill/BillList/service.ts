@@ -35,3 +35,11 @@ export const splitBillsByDate = (bills: GetBillsResp[]) => {
 };
 
 export type BillByDateItem = ReturnType<typeof splitBillsByDate>[number];
+
+export const getMonthDateRange = (date: Date) => {
+    const year = date.getFullYear();
+    const month = date.getMonth();
+    const startDate = new Date(year, month, 1);
+    const endDate = new Date(year, month + 1, 1, 0, 0, 0, -1);
+    return [startDate, endDate];
+};
