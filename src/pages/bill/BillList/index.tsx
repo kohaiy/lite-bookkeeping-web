@@ -13,9 +13,9 @@ const BillList: React.FC = () => {
     const [billDates, setBillDates] = useState<BillByDateItem[]>([]);
     const [date, setDate] = useState<Date>(new Date());
 
-    const loadBills = async () => {
+    const loadBills = async (month?: Date) => {
         try {
-            const [startDate, endDate] = getMonthDateRange(date);
+            const [startDate, endDate] = getMonthDateRange(month ?? date);
             const { data } = await getBills({ startDate, endDate });
             if (data) {
                 const billDates = splitBillsByDate(data);
@@ -28,7 +28,7 @@ const BillList: React.FC = () => {
 
     const handleMonthChange = (val: Date) => {
         setDate(val);
-        loadBills();
+        loadBills(val);
     };
 
     useEffect(() => {
