@@ -4,7 +4,7 @@ import { AppBar, Box, Button, Container, Link, TextField, Toolbar, Typography } 
 import { postUserLogin } from '@/apis/modules/user';
 import { useAuth } from '@/router/AuthProvider';
 import { setToken } from '@/helpers/storage';
-// import { getConfigCommon } from '@/apis/modules/config';
+import { getConfigCommon } from '@/apis/modules/config';
 
 interface LoginForm {
     name: string;
@@ -29,14 +29,14 @@ const AuthLogin: React.FC = () => {
             navigate((location.state as any)?.from || '/');
         }
     };
-    // const handleOAuthLogin = async () => {
-    //     const { data } = await getConfigCommon();
-    //     if (data) {
-    //         const { uniAuthClientId, uniAuthUrl } = data.data;
-
-    //         window.location.href = uniAuthUrl + '?clientId=' + uniAuthClientId;
-    //     }
-    // };
+    const handleOAuthLogin = async () => {
+        const { data } = await getConfigCommon();
+        if (data) {
+            const { uniAuthClientId, uniAuthUrl } = data;
+            console.log(uniAuthClientId, uniAuthUrl);
+            window.location.replace(`${uniAuthUrl}?clientId=${uniAuthClientId}`);
+        }
+    };
 
     return (
         <>
@@ -83,10 +83,10 @@ const AuthLogin: React.FC = () => {
                             <Button type="submit" variant="contained" size="large" fullWidth>
                                 登 录
                             </Button>
-                            {/* <span className="mx-2"></span>
-                        <Button onClick={handleOAuthLogin} className="primary" type="button">
-                            Uni Auth 登录
-                        </Button> */}
+                            <span className="mx-2"></span>
+                            <Button onClick={handleOAuthLogin} sx={{ mt: 2 }} variant="contained" type="button" color="success" size="large" fullWidth>
+                                Uni Auth 登录
+                            </Button>
                         </div>
                         <div className="mt-2">
                             没有账户？

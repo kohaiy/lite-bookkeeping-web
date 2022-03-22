@@ -5,6 +5,7 @@ import BillAdd from '@/pages/bill/BillAdd';
 import Main from '@/layouts/Main';
 import BillList from '@/pages/bill/BillList';
 import UserHome from '@/pages/user/Home';
+import AuthLoginOAuth from '@/pages/auth/LoginOAuth';
 
 export interface RouteParams extends RouteObject {
     // default `true`
@@ -26,6 +27,11 @@ const routes: RouteParams[] = [
         path: '/login',
         auth: false,
         element: <AuthLogin />,
+    },
+    {
+        path: '/login/oauth',
+        auth: false,
+        element: <AuthLoginOAuth />,
     },
     {
         path: '/register',
