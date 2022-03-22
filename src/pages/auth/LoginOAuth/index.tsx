@@ -39,7 +39,7 @@ const AuthLoginOAuth: React.FC = () => {
             if (data.isBind) {
                 setToken(data.data!.token);
                 auth.setUser(data.data!);
-                navigate((location.state as any)?.from || '/');
+                navigate((location.state as any)?.from || '/', { replace: true });
             } else {
                 setIsLoaded(true);
             }
@@ -59,7 +59,7 @@ const AuthLoginOAuth: React.FC = () => {
             setToken(data.token);
             auth.setUser(data);
 
-            navigate((location.state as any)?.from || '/');
+            navigate((location.state as any)?.from || '/', { replace: true });
         } else {
             navigate('/login', { replace: true });
         }
